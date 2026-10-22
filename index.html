@@ -1,0 +1,566 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071426">
+  <title>منصة مستر أيمن الشوربجي التعليمية</title>
+  <meta name="description" content="منصة مستر أيمن الشوربجي التعليمية - تعلم، تابع تقدمك، ونظم دراستك.">
+
+  <style>
+    :root {
+      --bg: #071426;
+      --panel: #0e2038;
+      --panel2: #132945;
+      --blue: #3985ff;
+      --cyan: #62d8ff;
+      --white: #f4f8ff;
+      --muted: #a8bad1;
+      --border: rgba(255,255,255,.1);
+      --danger: #ff8585;
+      --green: #61e5b0;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--white);
+      background:
+        radial-gradient(ellipse at 15% 0%, rgba(38,105,202,.22), transparent 40%),
+        radial-gradient(ellipse at 95% 80%, rgba(30,190,220,.09), transparent 35%),
+        var(--bg);
+      font-family: Tahoma, Arial, sans-serif;
+    }
+
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+
+    .topbar {
+      min-height: 78px;
+      padding: 16px 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(7,20,38,.82);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 23px;
+      font-weight: bold;
+      background: linear-gradient(135deg, var(--blue), #42c8ec);
+      box-shadow: 0 7px 28px rgba(57,133,255,.25);
+    }
+
+    .brand h1 { font-size: 16px; margin: 0 0 5px; }
+    .brand p { font-size: 11px; color: var(--muted); margin: 0; }
+
+    .secure-label {
+      font-size: 12px;
+      color: var(--green);
+      border: 1px solid rgba(97,229,176,.25);
+      background: rgba(97,229,176,.06);
+      border-radius: 30px;
+      padding: 9px 12px;
+    }
+
+    main {
+      width: min(1100px, 92%);
+      margin: 48px auto;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      align-items: center;
+      gap: 45px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 13px;
+      border-radius: 30px;
+      color: var(--cyan);
+      background: rgba(98,216,255,.08);
+      border: 1px solid rgba(98,216,255,.18);
+      font-size: 12px;
+      margin-bottom: 18px;
+    }
+
+    .intro h2 {
+      font-size: clamp(30px, 4vw, 49px);
+      line-height: 1.45;
+      margin: 0 0 16px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #62d8ff, #76aaff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .intro > p {
+      color: var(--muted);
+      line-height: 2;
+      font-size: 15px;
+      max-width: 520px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .feature {
+      background: rgba(255,255,255,.035);
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: 15px;
+    }
+
+    .feature .symbol { font-size: 22px; }
+    .feature h3 { font-size: 14px; margin: 10px 0 6px; }
+    .feature p { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.8; }
+
+    .auth-card {
+      padding: 27px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 23px;
+      background: linear-gradient(150deg, rgba(19,41,69,.96), rgba(10,26,46,.97));
+      box-shadow: 0 25px 70px rgba(0,0,0,.22);
+    }
+
+    .auth-card h2 { font-size: 23px; margin: 0 0 8px; }
+    .subtitle { color: var(--muted); font-size: 13px; line-height: 1.8; margin: 0 0 22px; }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      padding: 5px;
+      border-radius: 12px;
+      background: rgba(0,0,0,.2);
+      margin-bottom: 22px;
+    }
+
+    .tab {
+      padding: 12px 8px;
+      border: 0;
+      border-radius: 9px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .tab.active { background: var(--blue); color: white; }
+
+    .field { margin-bottom: 15px; }
+    .field label {
+      display: block;
+      font-size: 12px;
+      color: #d9e5f6;
+      margin-bottom: 8px;
+    }
+
+    .field input {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(3,13,27,.5);
+      color: white;
+      padding: 13px;
+      border-radius: 10px;
+      outline: none;
+      transition: border .2s;
+    }
+
+    .field input:focus { border-color: var(--blue); }
+    .field input::placeholder { color: #6f839c; }
+
+    .primary {
+      width: 100%;
+      border: 0;
+      padding: 14px;
+      margin-top: 6px;
+      color: white;
+      font-weight: bold;
+      border-radius: 11px;
+      background: linear-gradient(100deg, #3479f6, #277fe0);
+      box-shadow: 0 8px 24px rgba(57,133,255,.2);
+    }
+
+    .primary:disabled { opacity: .6; cursor: wait; }
+
+    .message {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      line-height: 1.9;
+      overflow-wrap: anywhere;
+    }
+
+    .message.show { display: block; }
+    .message.error { color: #ffd0d0; background: rgba(255,90,90,.1); border: 1px solid rgba(255,90,90,.2); }
+    .message.success { color: #aaffd8; background: rgba(60,220,155,.08); border: 1px solid rgba(60,220,155,.2); }
+    .hidden { display: none !important; }
+
+    .dashboard { margin-top: 24px; }
+    .welcome-card {
+      padding: 25px;
+      border-radius: 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+    }
+    .welcome-card h2 { margin-top: 0; }
+    .welcome-card p { color: var(--muted); line-height: 1.9; }
+    .secondary {
+      color: white;
+      background: transparent;
+      border: 1px solid var(--border);
+      padding: 11px 16px;
+      border-radius: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 12px 35px;
+      color: #778ba5;
+      font-size: 11px;
+      line-height: 2;
+    }
+
+    @media (max-width: 760px) {
+      main { margin-top: 30px; }
+      .hero { grid-template-columns: 1fr; gap: 30px; }
+      .intro h2 { font-size: 33px; }
+      .auth-card { padding: 21px; }
+      .secure-label { font-size: 10px; }
+      .topbar { padding: 14px 4%; }
+    }
+
+    @media (max-width: 380px) {
+      .features { grid-template-columns: 1fr; }
+      .brand h1 { font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">أ</div>
+      <div>
+        <h1>منصة مستر أيمن الشوربجي</h1>
+        <p>MR AYMAN EDUCATION PLATFORM</p>
+      </div>
+    </div>
+    <div class="secure-label">● بوابتك نحو التفوق</div>
+  </header>
+
+  <main>
+    <section class="hero" id="authSection">
+      <div class="intro">
+        <span class="eyebrow">🎓 تعليمك.. خطوتك للمستقبل</span>
+        <h2>رحلتك نحو التفوق تبدأ <span class="gradient-text">من هنا</span></h2>
+        <p>
+          مكان واحد تتابع منه دروسك، وتنظم مذاكرتك، وتراجع درجاتك،
+          وتسأل عن كل حاجة مش واضحة ليك.
+          ابدأ رحلتك التعليمية خطوة بخطوة.
+        </p>
+
+        <div class="features">
+          <div class="feature">
+            <div class="symbol">📚</div>
+            <h3>الكورسات والدروس</h3>
+            <p>تابع محتواك التعليمي من مكان واحد.</p>
+          </div>
+          <div class="feature">
+            <div class="symbol">📝</div>
+            <h3>الملازم والمراجعات</h3>
+            <p>نظم مراجعتك واستعد لامتحاناتك.</p>
+          </div>
+          <div class="feature">
+            <div class="symbol">📊</div>
+            <h3>متابعة التقدم</h3>
+            <p>تابع درجاتك وتقدمك بعد تفعيل خدمات المنصة.</p>
+          </div>
+          <div class="feature">
+            <div class="symbol">💬</div>
+            <h3>الأسئلة والمساعدة</h3>
+            <p>اسأل عن الدروس وتابع الردود.</p>
+          </div>
+        </div>
+      </div>
+
+      <section class="auth-card" aria-label="تسجيل الدخول">
+        <div id="authForms">
+          <h2 id="formTitle">أهلًا بيك 👋</h2>
+          <p class="subtitle" id="formSubtitle">سجّل دخولك عشان تدخل حسابك التعليمي.</p>
+
+          <div class="tabs">
+            <button class="tab active" id="loginTab" type="button">تسجيل الدخول</button>
+            <button class="tab" id="signupTab" type="button">حساب جديد</button>
+          </div>
+
+          <form id="authForm">
+            <div id="signupFields" class="hidden">
+              <div class="field">
+                <label for="fullName">الاسم الرباعي</label>
+                <input id="fullName" autocomplete="name" placeholder="اكتب اسمك الرباعي" maxlength="120">
+              </div>
+              <div class="field">
+                <label for="studentPhone">رقم موبايل الطالب</label>
+                <input id="studentPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="01xxxxxxxxx" maxlength="20">
+              </div>
+              <div class="field">
+                <label for="guardianPhone">رقم موبايل ولي الأمر</label>
+                <input id="guardianPhone" type="tel" inputmode="tel" placeholder="01xxxxxxxxx" maxlength="20">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="email">البريد الإلكتروني</label>
+              <input id="email" type="email" autocomplete="email" placeholder="name@example.com" required maxlength="254">
+            </div>
+
+            <div class="field">
+              <label for="password">كلمة المرور</label>
+              <input id="password" type="password" autocomplete="current-password" placeholder="اكتب كلمة المرور" required minlength="8" maxlength="128">
+            </div>
+
+            <button class="primary" id="submitButton" type="submit">تسجيل الدخول</button>
+          </form>
+
+          <div class="message" id="message" role="status" aria-live="polite"></div>
+        </div>
+
+        <div id="dashboard" class="dashboard hidden">
+          <h2>أهلًا بيك في المنصة 🎉</h2>
+          <div class="welcome-card">
+            <h3 id="studentName">حسابك</h3>
+            <p id="studentEmail"></p>
+            <p>تم تسجيل الدخول بنجاح. هنضيف الكورسات والملازم والدرجات بعد تجهيز صلاحيات كل قسم.</p>
+            <button class="secondary" id="logoutButton" type="button">تسجيل الخروج</button>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    منصة مستر أيمن الشوربجي التعليمية<br>
+    العلم خطوة.. والنجاح رحلة مستمرة
+  </footer>
+
+  <!-- مكتبة Supabase الرسمية -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    // بيانات الربط العامة لمشروعك
+    const SUPABASE_URL = "https://aocfytvfmrozzafwnasq.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_wd1cbzai9WTIvqhDw8zrHQ_XtAFarZt";
+
+    const client = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const $ = (id) => document.getElementById(id);
+
+    let currentMode = "login";
+    let busy = false;
+
+    function showMessage(text, type = "error") {
+      const box = $("message");
+      box.textContent = text;
+      box.className = "message show " + type;
+    }
+
+    function clearMessage() {
+      $("message").textContent = "";
+      $("message").className = "message";
+    }
+
+    function setBusy(value) {
+      busy = value;
+      $("submitButton").disabled = value;
+      $("submitButton").textContent = value
+        ? "جارٍ التنفيذ..."
+        : currentMode === "login" ? "تسجيل الدخول" : "إنشاء الحساب";
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      clearMessage();
+
+      const signup = mode === "signup";
+      $("signupFields").classList.toggle("hidden", !signup);
+      $("loginTab").classList.toggle("active", !signup);
+      $("signupTab").classList.toggle("active", signup);
+
+      $("formTitle").textContent = signup ? "أنشئ حسابك 🎓" : "أهلًا بيك 👋";
+      $("formSubtitle").textContent = signup
+        ? "اكتب بياناتك لإنشاء حسابك التعليمي."
+        : "سجّل دخولك عشان تدخل حسابك التعليمي.";
+
+      $("fullName").required = signup;
+      $("studentPhone").required = signup;
+      $("guardianPhone").required = signup;
+      $("password").autocomplete = signup ? "new-password" : "current-password";
+
+      setBusy(false);
+    }
+
+    function showDashboard(user) {
+      $("authForms").classList.add("hidden");
+      $("dashboard").classList.remove("hidden");
+      $("studentEmail").textContent = user.email || "";
+      const name = user.user_metadata?.full_name;
+      $("studentName").textContent = name ? "أهلًا يا " + name : "حسابك التعليمي";
+    }
+
+    function showAuth() {
+      $("dashboard").classList.add("hidden");
+      $("authForms").classList.remove("hidden");
+    }
+
+    $("loginTab").addEventListener("click", () => setMode("login"));
+    $("signupTab").addEventListener("click", () => setMode("signup"));
+
+    $("authForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (busy) return;
+      clearMessage();
+
+      const email = $("email").value.trim();
+      const password = $("password").value;
+
+      if (!email || !password) {
+        showMessage("اكتب البريد الإلكتروني وكلمة المرور.");
+        return;
+      }
+
+      setBusy(true);
+
+      try {
+        if (currentMode === "signup") {
+          const fullName = $("fullName").value.trim();
+          const studentPhone = $("studentPhone").value.trim();
+          const guardianPhone = $("guardianPhone").value.trim();
+
+          if (fullName.split(/\s+/).filter(Boolean).length < 4) {
+            showMessage("من فضلك اكتب الاسم الرباعي كاملًا.");
+            return;
+          }
+
+          if (!studentPhone || !guardianPhone) {
+            showMessage("اكتب رقم موبايل الطالب ورقم ولي الأمر.");
+            return;
+          }
+
+          if (password.length < 8) {
+            showMessage("كلمة المرور لازم تكون 8 أحرف على الأقل.");
+            return;
+          }
+
+          const { data, error } = await client.auth.signUp({
+            email,
+            password,
+            options: {
+              data: {
+                full_name: fullName,
+                student_phone: studentPhone,
+                guardian_phone: guardianPhone
+              }
+            }
+          });
+
+          if (error) throw error;
+
+          if (data.session) {
+            showDashboard(data.user);
+            showMessage("تم إنشاء الحساب بنجاح.", "success");
+          } else {
+            showMessage(
+              "تم إرسال طلب إنشاء الحساب. لو تأكيد البريد مفعّل، افتح بريدك الإلكتروني واضغط رابط التأكيد قبل تسجيل الدخول.",
+              "success"
+            );
+            setMode("login");
+          }
+        } else {
+          const { data, error } = await client.auth.signInWithPassword({
+            email,
+            password
+          });
+
+          if (error) throw error;
+          showDashboard(data.user);
+        }
+      } catch (error) {
+        console.error("Authentication error:", error);
+        showMessage("تعذّر إكمال العملية. راجع البيانات وإعدادات Supabase، ثم حاول مرة أخرى.");
+      } finally {
+        setBusy(false);
+      }
+    });
+
+    $("logoutButton").addEventListener("click", async () => {
+      $("logoutButton").disabled = true;
+      try {
+        const { error } = await client.auth.signOut();
+        if (error) throw error;
+        showAuth();
+        setMode("login");
+        $("password").value = "";
+        showMessage("تم تسجيل الخروج بنجاح.", "success");
+      } catch (error) {
+        console.error("Sign out error:", error);
+        showMessage("تعذّر تسجيل الخروج. حاول مرة أخرى.");
+      } finally {
+        $("logoutButton").disabled = false;
+      }
+    });
+
+    async function initializeApp() {
+      try {
+        const { data, error } = await client.auth.getSession();
+        if (error) throw error;
+        if (data.session?.user) showDashboard(data.session.user);
+
+        client.auth.onAuthStateChange((_event, session) => {
+          if (session?.user) {
+            showDashboard(session.user);
+          } else {
+            showAuth();
+          }
+        });
+      } catch (error) {
+        console.error("Session error:", error);
+        showMessage("تعذّر التحقق من جلسة الدخول. تأكد من اتصال الإنترنت وإعدادات المشروع.");
+      }
+    }
+
+    initializeApp();
+  </script>
+</body>
+</html>
