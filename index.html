@@ -1,619 +1,449 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#081426">
 <title>منصة مستر أيمن الشوربجي</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{
-  --bg:#081426;--panel:#101f35;--panel2:#152943;
-  --blue:#4388ff;--cyan:#65dcff;--text:#f2f6ff;
-  --muted:#9eafc7;--border:#243a57;--green:#60e3b0;
-  --red:#ff8585;--radius:18px
-}
+:root{--bg:#081426;--panel:#101f35;--blue:#4388ff;--cyan:#65dcff;--text:#f2f6ff;--muted:#9eafc7;--border:#243a57;--green:#60e3b0;--red:#ff8585}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
-button,input{font:inherit}
-button{cursor:pointer}
-button:disabled{opacity:.5;cursor:not-allowed}
-.hidden{display:none!important}
-.muted{color:var(--muted)}
-header{min-height:76px;padding:14px 4%;display:flex;align-items:center;justify-content:space-between;gap:15px;border-bottom:1px solid var(--border);background:#081426ed;position:sticky;top:0;z-index:10;backdrop-filter:blur(16px)}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{width:45px;height:45px;border-radius:15px;display:grid;place-items:center;font-size:24px;font-weight:bold;background:linear-gradient(135deg,#3679ff,#66dcff);box-shadow:0 5px 24px #3985ff35;color:white}
-.brand h1{font-size:15px;margin:0 0 5px}
-.brand small{font-size:10px;color:var(--muted);letter-spacing:.5px}
-.top-actions{display:flex;align-items:center;gap:10px}
-.badge{font-size:11px;color:var(--green);border:1px solid #60e3b044;border-radius:30px;padding:9px 12px}
-.btn{border:1px solid transparent;background:linear-gradient(110deg,#367bfa,#267fdf);color:white;border-radius:11px;padding:12px 16px;font-weight:bold;transition:.2s}
-.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
-.btn.secondary{background:#172943;border-color:var(--border)}
-.btn.full{width:100%;margin-top:8px}
-main{width:min(1380px,96%);margin:30px auto 55px}
-h2{font-size:clamp(24px,3vw,34px);margin:0 0 12px}
-p{line-height:1.9}
-.tag{display:inline-block;border:1px solid #315078;background:#3985ff0c;border-radius:30px;padding:8px 12px;color:var(--cyan);font-size:12px;margin-bottom:14px}
-.panel{background:linear-gradient(145deg,#122641,#0c192b);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:0 20px 50px #0002}
-.layout{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}
-.features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-top:24px}
-.card{background:linear-gradient(145deg,#142740,#101e32);border:1px solid var(--border);padding:19px;border-radius:16px;min-width:0}
-.card .icon{font-size:25px}
-.card h3{font-size:15px;margin:12px 0 7px}
-.card p{font-size:12px;color:var(--muted);margin:0}
-.field{margin:15px 0}
-label{display:block;font-size:12px;margin-bottom:8px;color:#dce8f8}
-input{width:100%;padding:13px;border-radius:11px;border:1px solid var(--border);background:#081426;color:white;outline:none}
-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #4388ff16}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;background:#081426;border-radius:12px;margin:20px 0}
-.tab{padding:11px;border:0;border-radius:9px;background:transparent;color:var(--muted)}
-.tab.active{background:var(--blue);color:white}
-.message{display:none;padding:12px;margin-top:15px;border-radius:10px;font-size:13px;line-height:1.8;overflow-wrap:anywhere}
-.message.show{display:block}
-.message.error{background:#ff777714;color:#ffc3c3;border:1px solid #ff777744}
-.message.success{background:#61e5b011;color:#aaffd8;border:1px solid #61e5b044}
-.workspace{display:grid;grid-template-columns:235px minmax(0,1fr);gap:22px;align-items:start}
-.sidebar{background:#0d1c30;border:1px solid var(--border);border-radius:18px;padding:17px;position:sticky;top:95px}
-.side-title{font-size:10px;color:#8196b3;margin:5px 10px 13px}
-.nav-btn{width:100%;display:flex;align-items:center;gap:12px;text-align:right;border:1px solid transparent;background:transparent;color:#b9c8dd;padding:12px;border-radius:11px;margin:4px 0;font-size:13px}
-.nav-btn:hover,.nav-btn.active{background:#3985ff19;border-color:#3985ff30;color:white}
-.nav-btn .ni{width:24px;text-align:center;font-size:17px}
-.sidebar-foot{margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
-.content{min-width:0}
-.welcome{border:1px solid #2a4a70;border-radius:20px;padding:27px;background:radial-gradient(ellipse at top left,#1a4773 0%,transparent 65%),linear-gradient(120deg,#122640,#0d192b);position:relative;overflow:hidden;margin-bottom:22px}
-.welcome:after{content:"أ";position:absolute;left:22px;top:-30px;font-size:190px;font-weight:bold;color:#ffffff08;pointer-events:none}
-.welcome h2,.welcome p,.welcome .tag{position:relative;z-index:1}
-.welcome p{color:#b7c9e1;margin-bottom:0;font-size:13px}
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-bottom:22px}
-.stat{position:relative;overflow:hidden}
-.stat .stat-icon{font-size:22px}
-.stat strong{display:block;font-size:22px;color:var(--cyan);margin:15px 0 7px}
-.stat span{font-size:12px;color:var(--muted)}
-.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 17px}
-.section-head h2{font-size:21px;margin:0}
-.section-head p{font-size:12px;margin:7px 0 0;color:var(--muted)}
-.note{background:#62d8ff0b;border:1px solid #62d8ff33;border-radius:13px;padding:15px;color:#d7e9ff;font-size:13px;line-height:1.9;margin-bottom:18px}
-.empty-state{text-align:center;padding:34px 18px;border:1px dashed #304762;border-radius:16px;background:#ffffff03}
-.empty-state .icon{font-size:34px}
-.empty-state h3{font-size:16px;margin:12px 0 6px}
-.empty-state p{font-size:12px;color:var(--muted);margin:0}
-.section-view{animation:appear .22s ease}
-@keyframes appear{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.profile-strip{display:flex;align-items:center;gap:12px;padding:12px;background:#ffffff05;border:1px solid var(--border);border-radius:13px}
-.avatar{width:38px;height:38px;border-radius:12px;background:#3985ff25;display:grid;place-items:center;font-weight:bold;color:var(--cyan)}
-.profile-strip strong{font-size:12px;display:block;overflow-wrap:anywhere}
-.profile-strip small{font-size:10px;color:var(--muted)}
-footer{text-align:center;color:#7186a3;font-size:11px;padding:22px;line-height:2;border-top:1px solid #1a2d45}
-
-/* إدارة الطلاب */
-.students-tools{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin-bottom:14px}
-.students-tools input{min-width:0}
-.students-table-wrap{width:100%;overflow-x:auto;border:1px solid var(--border);border-radius:13px}
-.students-table{width:100%;border-collapse:collapse;min-width:680px;text-align:right;font-size:12px}
-.students-table th{background:#142943;color:var(--cyan);font-weight:bold;white-space:nowrap}
-.students-table th,.students-table td{padding:14px 12px;border-bottom:1px solid var(--border)}
-.students-table tbody tr:hover{background:#ffffff06}
-.students-table tbody tr:last-child td{border-bottom:0}
-.students-status{font-size:12px;color:var(--muted);line-height:1.9;margin:10px 0}
-.admin-count{color:var(--cyan);font-weight:bold}
-@media(max-width:850px){.workspace{grid-template-columns:1fr}.sidebar{position:static;padding:10px}.nav-list{display:flex;overflow-x:auto;gap:5px}.nav-btn{width:auto;white-space:nowrap;flex-shrink:0;margin:0}.side-title,.sidebar-foot{display:none}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:600px){header{padding:12px 4%;min-height:68px}.brand h1{font-size:12px}.brand small{font-size:8px}.logo{width:39px;height:39px}.badge{display:none}main{width:92%;margin-top:20px}.layout{grid-template-columns:1fr;gap:22px}.panel{padding:18px}.features{gap:9px}.card{padding:14px}.card h3{font-size:13px}.stats{grid-template-columns:1fr}.stat{display:grid;grid-template-columns:38px 1fr;align-items:center;column-gap:10px}.stat .stat-icon{grid-row:span 2}.stat strong{margin:0 0 5px;font-size:20px}.stat span{align-self:end}.welcome{padding:22px}.welcome:after{font-size:130px}.nav-btn{font-size:12px;padding:10px}.students-tools{grid-template-columns:1fr}.students-tools .btn{width:100%}}
+button,input,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}
+.hidden{display:none!important}.muted{color:var(--muted)}p{line-height:1.8}
+header{position:sticky;top:0;z-index:5;background:#081426ed;border-bottom:1px solid var(--border);padding:14px 4%;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#3679ff,#66dcff);font-size:23px;font-weight:bold}
+.brand h1{font-size:15px;margin:0 0 5px}.brand small{font-size:10px;color:var(--muted)}
+main{width:min(1250px,94%);margin:26px auto 45px}
+h2{font-size:25px;margin:0 0 12px}h3{font-size:16px}
+.btn{border:1px solid transparent;background:linear-gradient(110deg,#367bfa,#267fdf);color:white;border-radius:11px;padding:11px 15px;font-weight:bold}
+.btn.secondary{background:#172943;border-color:var(--border)}.btn.full{width:100%;margin-top:10px}
+.panel,.card{background:linear-gradient(145deg,#142740,#101e32);border:1px solid var(--border);border-radius:17px;padding:20px}
+.layout{display:grid;grid-template-columns:1fr minmax(300px,.8fr);gap:25px;align-items:center}
+.features,.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card p{font-size:13px;color:var(--muted);margin-bottom:0}
+.field{margin:14px 0}label{display:block;font-size:12px;margin-bottom:7px;color:#dce8f8}
+input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:#081426;color:white;outline:none}
+textarea{resize:vertical;min-height:85px}input:focus,textarea:focus{border-color:var(--blue)}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#081426;padding:5px;border-radius:12px;margin:18px 0}
+.tab{padding:10px;border:0;border-radius:9px;background:transparent;color:var(--muted)}.tab.active{background:var(--blue);color:white}
+.msg{padding:12px;border-radius:10px;margin:12px 0;font-size:13px;line-height:1.8;overflow-wrap:anywhere;background:#152943;border:1px solid var(--border)}
+.msg.error{color:#ffc3c3;border-color:#ff777744}.msg.success{color:#aaffd8;border-color:#61e5b044}
+.workspace{display:grid;grid-template-columns:220px minmax(0,1fr);gap:20px;align-items:start}
+.sidebar{background:#0d1c30;border:1px solid var(--border);border-radius:17px;padding:12px;position:sticky;top:85px}
+.nav-btn{width:100%;text-align:right;background:transparent;color:#b9c8dd;border:1px solid transparent;border-radius:10px;padding:12px;margin:3px 0}
+.nav-btn.active,.nav-btn:hover{background:#3985ff19;border-color:#3985ff40;color:white}
+.content{min-width:0}.welcome{padding:24px;border:1px solid #2a4a70;border-radius:18px;background:radial-gradient(ellipse at top left,#1a4773,transparent 65%),#0d192b;margin-bottom:20px}
+.welcome p{font-size:13px;color:#b7c9e1;margin-bottom:0}
+.section{margin-bottom:22px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:15px}
+.section-head h2{font-size:21px;margin:0}.section-head p{font-size:12px;color:var(--muted);margin:5px 0}
+.course-card{background:linear-gradient(145deg,#142740,#101e32);border:1px solid var(--border);border-radius:15px;padding:17px;min-width:0}
+.course-card h3{margin:0 0 8px}.course-card p{font-size:13px;color:var(--muted)}
+.lesson{border:1px solid var(--border);border-radius:12px;padding:13px;margin-top:10px;background:#08142666}
+.lesson video{width:100%;max-height:390px;margin-top:10px;border-radius:10px;background:#000}
+.file-link{color:var(--cyan);cursor:pointer;text-decoration:underline;border:0;background:none;padding:8px 0}
+.badge{display:inline-block;color:var(--cyan);font-size:11px;border:1px solid #315078;border-radius:25px;padding:6px 10px}
+.status{font-size:12px;color:var(--muted);line-height:1.9;overflow-wrap:anywhere}
+hr{border:0;border-top:1px solid var(--border);margin:18px 0}
+footer{text-align:center;color:#7186a3;font-size:11px;padding:22px;border-top:1px solid #1a2d45}
+@media(max-width:800px){.layout,.workspace{grid-template-columns:1fr}.sidebar{position:static}.nav-list{display:flex;overflow:auto;gap:4px}.nav-btn{width:auto;white-space:nowrap;flex-shrink:0}.features,.grid{gap:9px}}
+@media(max-width:500px){.brand h1{font-size:12px}.brand small{font-size:8px}.logo{width:38px;height:38px}main{width:92%;margin-top:18px}.panel,.card{padding:15px}.features,.grid{grid-template-columns:1fr}.welcome{padding:18px}}
 </style>
 </head>
 <body>
 <header>
-  <div class="brand"><div class="logo">أ</div><div><h1>منصة مستر أيمن الشوربجي</h1><small>MR AYMAN EDUCATION PLATFORM</small></div></div>
-  <div class="top-actions"><span class="badge" id="statusBadge">منصتك التعليمية</span><button class="btn secondary hidden" id="logoutTop" type="button">خروج</button></div>
+ <div class="brand"><div class="logo">أ</div><div><h1>منصة مستر أيمن الشوربجي</h1><small>MR AYMAN EDUCATION PLATFORM</small></div></div>
+ <button id="logoutTop" class="btn secondary hidden">خروج</button>
 </header>
 <main>
 <section id="authScreen" class="layout">
-<div>
-<span class="tag">✦ بوابتك نحو التفوق</span>
-<h2>مستقبلك يبدأ بخطوة <span style="color:var(--cyan)">علم</span></h2>
-<p class="muted">تجربة تعليمية منظمة تساعدك تتابع دروسك ومحتواك من مكان واحد، وتخلي رحلتك الدراسية أوضح وأسهل.</p>
-<div class="features">
-<div class="card"><div class="icon">📚</div><h3>الكورسات</h3><p>مساحة منظمة للدروس التعليمية.</p></div>
-<div class="card"><div class="icon">📝</div><h3>الملازم</h3><p>ملفات ومراجعاتك في مكان واحد.</p></div>
-<div class="card"><div class="icon">📊</div><h3>الدرجات</h3><p>متابعة مستواك الدراسي.</p></div>
-<div class="card"><div class="icon">💬</div><h3>الأسئلة</h3><p>قسم مخصص للاستفسارات التعليمية.</p></div>
-</div>
-</div>
-<div class="panel">
-<div id="authForms">
-<span class="tag">حسابك التعليمي</span>
-<h2 id="formTitle" style="font-size:25px">أهلًا بيك 👋</h2>
-<p class="muted" id="formSubtitle" style="font-size:13px">سجّل دخولك لحسابك التعليمي.</p>
-<div class="tabs"><button class="tab active" id="loginTab" type="button">تسجيل الدخول</button><button class="tab" id="signupTab" type="button">حساب جديد</button></div>
-<form id="authForm">
-<div id="signupFields" class="hidden">
-<div class="field"><label for="fullName">الاسم الرباعي</label><input id="fullName" autocomplete="name" maxlength="120" placeholder="اكتب اسمك الرباعي"></div>
-<div class="field"><label for="studentPhone">موبايل الطالب</label><input id="studentPhone" type="tel" autocomplete="tel" maxlength="20" placeholder="رقم الموبايل"></div>
-<div class="field"><label for="guardianPhone">موبايل ولي الأمر</label><input id="guardianPhone" type="tel" maxlength="20" placeholder="رقم ولي الأمر"></div>
-</div>
-<div class="field"><label for="email">البريد الإلكتروني</label><input id="email" type="email" required autocomplete="email" maxlength="254" placeholder="name@example.com"></div>
-<div class="field"><label for="password">كلمة المرور</label><input id="password" type="password" required minlength="8" maxlength="128" autocomplete="current-password" placeholder="8 أحرف على الأقل"></div>
-<button class="btn full" id="submitButton" type="submit">تسجيل الدخول</button>
-</form>
-<div id="message" class="message" role="status" aria-live="polite"></div>
-</div>
-</div>
+ <div>
+  <span class="badge">✦ بوابتك نحو التفوق</span>
+  <h2 style="margin-top:15px">مستقبلك يبدأ بخطوة علم</h2>
+  <p class="muted">الكورسات والدروس والملازم التعليمية في مكان واحد.</p>
+  <div class="features">
+   <div class="card"><h3>📚 الكورسات</h3><p>دروس مرتبة حسب كل كورس.</p></div>
+   <div class="card"><h3>🎥 الفيديوهات</h3><p>مشاهدة الدروس المنشورة.</p></div>
+   <div class="card"><h3>📝 الملازم</h3><p>ملفات PDF قابلة للعرض.</p></div>
+   <div class="card"><h3>🔐 الأمان</h3><p>المحتوى المنشور متاح للمستخدمين المسجلين.</p></div>
+  </div>
+ </div>
+ <div class="panel">
+  <h2 id="formTitle">أهلًا بيك 👋</h2>
+  <p class="muted" id="formSubtitle">سجّل دخولك لحسابك التعليمي.</p>
+  <div class="tabs"><button class="tab active" id="loginTab" type="button">تسجيل الدخول</button><button class="tab" id="signupTab" type="button">حساب جديد</button></div>
+  <form id="authForm">
+   <div id="signupFields" class="hidden">
+    <div class="field"><label for="fullName">الاسم الرباعي</label><input id="fullName" autocomplete="name" maxlength="120" placeholder="اكتب اسمك الرباعي"></div>
+    <div class="field"><label for="studentPhone">موبايل الطالب</label><input id="studentPhone" type="tel" maxlength="20"></div>
+    <div class="field"><label for="guardianPhone">موبايل ولي الأمر</label><input id="guardianPhone" type="tel" maxlength="20"></div>
+   </div>
+   <div class="field"><label for="email">البريد الإلكتروني</label><input id="email" type="email" required autocomplete="email"></div>
+   <div class="field"><label for="password">كلمة المرور</label><input id="password" type="password" required minlength="8" autocomplete="current-password"></div>
+   <button id="submitButton" class="btn full">تسجيل الدخول</button>
+  </form>
+  <div id="authMsg" class="msg hidden" role="status"></div>
+ </div>
 </section>
 
 <section id="dashboard" class="hidden">
-<div class="workspace">
-<aside class="sidebar">
-<div class="side-title">القائمة الرئيسية</div>
-<nav class="nav-list" aria-label="التنقل داخل المنصة">
-<button class="nav-btn active" data-page="home" type="button"><span class="ni">⌂</span> الرئيسية</button>
-<button class="nav-btn" data-page="courses" type="button"><span class="ni">📚</span> الكورسات</button>
-<button class="nav-btn" data-page="notes" type="button"><span class="ni">📝</span> الملازم</button>
-<button class="nav-btn" data-page="grades" type="button"><span class="ni">📊</span> الدرجات</button>
-<button class="nav-btn" data-page="questions" type="button"><span class="ni">💬</span> الأسئلة</button>
-<button class="nav-btn hidden" id="ownerNav" data-page="management" type="button"><span class="ni">🛡️</span> إدارة المنصة</button>
-</nav>
-<div class="sidebar-foot"><div class="profile-strip"><div class="avatar" id="avatarInitial">أ</div><div style="min-width:0"><strong id="sideName">حسابي</strong><small id="sideRole">حساب تعليمي</small></div></div><button class="btn secondary full" id="logoutButton" type="button">تسجيل الخروج</button></div>
-</aside>
-<div class="content">
-<div class="welcome"><span class="tag" id="roleTag">لوحة الحساب</span><h2 id="welcomeTitle">أهلًا بيك</h2><p id="welcomeText">مرحبًا بك في منصتك التعليمية.</p></div>
-<div id="homeView" class="section-view">
-<div class="stats">
-<div class="card stat"><div class="stat-icon">📚</div><div><strong id="courseCount">—</strong><span>الكورسات المتاحة</span></div></div>
-<div class="card stat"><div class="stat-icon">📝</div><div><strong id="noteCount">—</strong><span>الملازم والملفات</span></div></div>
-<div class="card stat"><div class="stat-icon">📊</div><div><strong id="gradeCount">—</strong><span>الدرجات المسجلة</span></div></div>
-</div>
-<div id="homeNotice" class="note">أهلًا بيك في المنصة. الأقسام التعليمية ستظهر هنا بعد ربط المحتوى بقاعدة البيانات.</div>
-<div class="section-head"><div><h2>أقسام المنصة</h2><p>كل احتياجاتك التعليمية في مكان واحد.</p></div></div>
-<div class="features" style="margin-top:0">
-<div class="card"><div class="icon">📚</div><h3>الكورسات</h3><p>الوصول إلى الدروس التعليمية عند نشر المحتوى.</p></div>
-<div class="card"><div class="icon">📝</div><h3>الملازم</h3><p>ملفات المراجعة والمواد الدراسية.</p></div>
-<div class="card"><div class="icon">📈</div><h3>متابعة المستوى</h3><p>الدرجات والتقدم الدراسي بعد التفعيل.</p></div>
-<div class="card"><div class="icon">💬</div><h3>اسأل فريق التدريس</h3><p>نظام الأسئلة والردود قيد التجهيز.</p></div>
-</div>
-</div>
-<div id="coursesView" class="section-view hidden"><div class="section-head"><div><h2>📚 الكورسات</h2><p>الدروس والكورسات التعليمية.</p></div></div><div class="empty-state"><div class="icon">🎓</div><h3>قسم الكورسات قيد التجهيز</h3><p>لسه ما ربطناش عرض الكورسات المنشورة بقاعدة البيانات.</p></div></div>
-<div id="notesView" class="section-view hidden"><div class="section-head"><div><h2>📝 الملازم والملفات</h2><p>مكان المواد والمراجعات الدراسية.</p></div></div><div class="empty-state"><div class="icon">📄</div><h3>قسم الملفات قيد التجهيز</h3><p>هنربط الملفات بتخزين آمن قبل إتاحتها للطلاب.</p></div></div>
-<div id="gradesView" class="section-view hidden"><div class="section-head"><div><h2>📊 الدرجات</h2><p>متابعة النتائج والتقييمات.</p></div></div><div class="empty-state"><div class="icon">📈</div><h3>لا توجد درجات معروضة حاليًا</h3><p>عرض الدرجات الفعلي يحتاج إلى ربط القسم بقاعدة البيانات وتأمين الصلاحيات.</p></div></div>
-<div id="questionsView" class="section-view hidden"><div class="section-head"><div><h2>💬 الأسئلة والاستفسارات</h2><p>قسم التواصل مع فريق التدريس.</p></div></div><div class="empty-state"><div class="icon">✍️</div><h3>قسم الأسئلة قيد التجهيز</h3><p>هنفعّل إرسال الأسئلة وعرض الردود بعد استكمال صلاحيات الوصول.</p></div></div>
+ <div class="workspace">
+  <aside class="sidebar">
+   <div id="profileName" style="padding:10px;font-size:13px">حسابي</div>
+   <div class="nav-list">
+    <button class="nav-btn active" data-page="home">⌂ الرئيسية</button>
+    <button class="nav-btn" data-page="courses">📚 الكورسات</button>
+    <button id="manageNav" class="nav-btn hidden" data-page="manage">🛡️ إدارة المحتوى</button>
+   </div>
+   <hr>
+   <button id="logoutButton" class="btn secondary full">تسجيل الخروج</button>
+  </aside>
+  <div class="content">
+   <div class="welcome"><span id="roleBadge" class="badge">حساب تعليمي</span><h2 id="welcomeTitle" style="margin-top:12px">أهلًا بيك</h2><p id="welcomeText">مرحبًا بك في المنصة.</p></div>
+   <div id="homePage" class="section">
+    <div class="grid">
+     <div class="card"><h3>📚 الكورسات</h3><p>تصفّح الكورسات المنشورة.</p><button class="btn full" data-goto="courses">عرض الكورسات</button></div>
+     <div class="card"><h3>🎥 الدروس</h3><p>شاهد الدروس المرتبطة بكل كورس.</p></div>
+     <div class="card"><h3>📝 الملازم</h3><p>افتح ملفات PDF المرفقة بالكورسات.</p></div>
+     <div class="card"><h3>🛡️ الإدارة</h3><p>أضف المحتوى من حساب مالك المنصة أو المضيف.</p></div>
+    </div>
+   </div>
 
-<div id="managementView" class="section-view hidden">
-<div class="section-head"><div><h2>🛡️ إدارة المنصة</h2><p>واجهة المالك لإدارة المنصة التعليمية.</p></div></div>
-<div class="note">👑 تم التحقق من دور حسابك من Supabase. تقدر تعرض بيانات الطلاب المسجلين أدناه إذا كانت سياسات قاعدة البيانات تسمح للمالك بقراءتها.</div>
+   <div id="coursesPage" class="section hidden">
+    <div class="section-head"><div><h2>📚 الكورسات</h2><p>الكورسات المنشورة المتاحة لحسابك.</p></div><button id="reloadCourses" class="btn secondary">تحديث ↻</button></div>
+    <div id="coursesMsg" class="msg hidden"></div>
+    <div id="courseList" class="grid"></div>
+   </div>
 
-<div class="card" style="margin-bottom:20px">
-  <div class="section-head">
-    <div><h2>👥 إدارة الطلاب</h2><p>بيانات الطلاب المسجلة في قاعدة البيانات.</p></div>
-    <span class="admin-count" id="studentsCount">0 طالب</span>
+   <div id="managePage" class="section hidden">
+    <div class="section-head"><div><h2>🛡️ إدارة المحتوى</h2><p>إضافة كورسات ودروس فيديو وملازم PDF.</p></div></div>
+    <div class="msg">يمكن للمالك والمضيف إضافة المحتوى. الكورس الجديد يكون غير منشور حتى تضغط زر النشر. ملفات الفيديو الكبيرة قد تحتاج رفعًا متقطعًا (Resumable Upload) بدل الرفع المباشر.</div>
+    <div class="card">
+     <h3>➕ إنشاء كورس</h3>
+     <form id="courseForm">
+      <div class="field"><label for="courseTitle">اسم الكورس</label><input id="courseTitle" required maxlength="180" placeholder="مثال: مقدمة في البرمجة"></div>
+      <div class="field"><label for="courseDescription">وصف الكورس</label><textarea id="courseDescription" maxlength="3000" placeholder="اكتب وصفًا مختصرًا للكورس"></textarea></div>
+      <button class="btn" id="createCourseButton">إنشاء الكورس</button>
+     </form>
+     <div id="createCourseMsg" class="msg hidden"></div>
+    </div>
+    <div class="card" style="margin-top:15px">
+     <h3>📤 إضافة درس فيديو أو ملزمة</h3>
+     <form id="uploadForm">
+      <div class="field"><label for="uploadCourse">اختار الكورس</label><select id="uploadCourse" required style="width:100%;padding:12px;background:#081426;color:white;border:1px solid var(--border);border-radius:10px"><option value="">أنشئ كورسًا أولًا</option></select></div>
+      <div class="field"><label for="contentTitle">عنوان الدرس أو الملف</label><input id="contentTitle" required maxlength="180"></div>
+      <div class="field"><label for="contentDescription">وصف (اختياري)</label><textarea id="contentDescription" maxlength="2000"></textarea></div>
+      <div class="field"><label for="contentType">نوع المحتوى</label><select id="contentType" style="width:100%;padding:12px;background:#081426;color:white;border:1px solid var(--border);border-radius:10px"><option value="video">درس فيديو</option><option value="pdf">ملزمة PDF</option></select></div>
+      <div class="field"><label for="contentFile">اختار الملف</label><input id="contentFile" type="file" required accept="video/mp4,video/webm,video/quicktime"></div>
+      <p id="fileHint" class="status">الفيديوهات المدعومة: MP4 وWebM وMOV. الحد الحالي 500 ميجابايت.</p>
+      <button class="btn" id="uploadButton">رفع المحتوى</button>
+     </form>
+     <div id="uploadMsg" class="msg hidden"></div>
+    </div>
+    <div class="card" style="margin-top:15px">
+     <h3>📋 كورساتي وإدارة النشر</h3>
+     <p class="muted">انشر الكورس بعد إضافة محتواه، أو ألغِ نشره لإخفائه عن الطلاب.</p>
+     <div id="manageCourses"></div>
+     <div id="manageMsg" class="msg hidden"></div>
+    </div>
+   </div>
   </div>
-  <div class="students-tools">
-    <input id="studentSearch" type="search" placeholder="ابحث باسم الطالب أو رقم الموبايل..." aria-label="البحث عن طالب">
-    <button class="btn" id="refreshStudents" type="button">تحديث البيانات ↻</button>
-  </div>
-  <p class="students-status" id="studentsStatus" role="status" aria-live="polite">اضغط على إدارة المنصة لعرض البيانات.</p>
-  <div class="students-table-wrap">
-    <table class="students-table">
-      <thead>
-        <tr>
-          <th>اسم الطالب</th>
-          <th>موبايل الطالب</th>
-          <th>موبايل ولي الأمر</th>
-          <th>الرقم التعريفي</th>
-          <th>تاريخ التسجيل</th>
-        </tr>
-      </thead>
-      <tbody id="studentsTableBody">
-        <tr><td colspan="5">لم يتم تحميل البيانات بعد.</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<div class="features" style="margin-top:0">
-<div class="card"><div class="icon">🧑‍🏫</div><h3>المضيفون</h3><p>إدارة فريق التدريس وصلاحياته بطريقة آمنة. الإدارة الفعلية للمضيفين لم تُفعّل بعد.</p></div>
-<div class="card"><div class="icon">📚</div><h3>إدارة المحتوى</h3><p>إنشاء الكورسات وتنظيم الملازم والمواد. القسم لم يُربط بقاعدة البيانات بعد.</p></div>
-<div class="card"><div class="icon">📊</div><h3>الدرجات والتقارير</h3><p>إدخال الدرجات ومراجعتها بصلاحيات إدارية. القسم لم يُفعّل بعد.</p></div>
-</div>
-</div>
-<div id="profileError" class="message error"></div>
-</div>
-</div>
+ </div>
 </section>
 </main>
 <footer>منصة مستر أيمن الشوربجي التعليمية<br>العلم خطوة.. والنجاح رحلة مستمرة</footer>
 
 <script>
-const SUPABASE_URL = "https://aocfytvfmrozzafwnasq.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_wd1cbzai9WTIvqhDw8zrHQ_XtAFarZt";
+const SUPABASE_URL="https://aocfytvfmrozzafwnasq.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_wd1cbzai9WTIvqhDw8zrHQ_XtAFarZt";
+const BUCKET="course-files";
+const $=id=>document.getElementById(id);
+let client=null,mode="login",busy=false,currentUser=null,currentRole=null;
+let ownedCourses=[],studentCourses=[];
 
-let client = null;
-let mode = "login";
-let busy = false;
-let currentPage = "home";
-let allStudents = [];
-let currentUser = null;
-
-const $ = id => document.getElementById(id);
-
-function message(text, type = "error") {
-  const el = $("message");
-  el.textContent = text;
-  el.className = "message show " + type;
+function showMsg(id,text,type="error"){
+ const el=$(id);el.textContent=text;el.className="msg "+type;
 }
-function clearMessage() {
-  $("message").textContent = "";
-  $("message").className = "message";
+function hideMsg(id){$(id).textContent="";$(id).className="msg hidden";}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function isManager(){return currentRole==="owner"||currentRole==="host";}
+function setMode(next){
+ mode=next;
+ const signup=mode==="signup";
+ $("signupFields").classList.toggle("hidden",!signup);
+ $("loginTab").classList.toggle("active",!signup);
+ $("signupTab").classList.toggle("active",signup);
+ $("formTitle").textContent=signup?"أنشئ حسابك 🎓":"أهلًا بيك 👋";
+ $("formSubtitle").textContent=signup?"اكتب بياناتك لإنشاء حسابك التعليمي.":"سجّل دخولك لحسابك التعليمي.";
+ $("fullName").required=signup;$("studentPhone").required=signup;$("guardianPhone").required=signup;
+ $("submitButton").textContent=signup?"إنشاء الحساب":"تسجيل الدخول";
+ hideMsg("authMsg");
 }
-function setBusy(value) {
-  busy = value;
-  $("submitButton").disabled = value;
-  $("submitButton").textContent = value ? "جارٍ التنفيذ..." :
-    mode === "login" ? "تسجيل الدخول" : "إنشاء الحساب";
-}
-function setMode(next) {
-  mode = next;
-  clearMessage();
-  const signup = mode === "signup";
-  $("signupFields").classList.toggle("hidden", !signup);
-  $("loginTab").classList.toggle("active", !signup);
-  $("signupTab").classList.toggle("active", signup);
-  $("formTitle").textContent = signup ? "أنشئ حسابك 🎓" : "أهلًا بيك 👋";
-  $("formSubtitle").textContent = signup ?
-    "اكتب بياناتك لإنشاء حسابك التعليمي." : "سجّل دخولك لحسابك التعليمي.";
-  $("fullName").required = signup;
-  $("studentPhone").required = signup;
-  $("guardianPhone").required = signup;
-  $("password").autocomplete = signup ? "new-password" : "current-password";
-  setBusy(false);
-}
-function showAuth() {
-  currentUser = null;
-  allStudents = [];
-  $("authScreen").classList.remove("hidden");
-  $("dashboard").classList.add("hidden");
-  $("logoutTop").classList.add("hidden");
-  $("ownerNav").classList.add("hidden");
-}
-function showDashboardBase() {
-  $("authScreen").classList.add("hidden");
-  $("dashboard").classList.remove("hidden");
-  $("logoutTop").classList.remove("hidden");
-  $("profileError").classList.add("hidden");
-}
+$("loginTab").onclick=()=>setMode("login");
+$("signupTab").onclick=()=>setMode("signup");
 
-function navigate(page) {
-  const pages = {
-    home:"homeView", courses:"coursesView", notes:"notesView",
-    grades:"gradesView", questions:"questionsView",
-    management:"managementView"
-  };
-  if (!pages[page]) return;
-  if (page === "management" && $("ownerNav").classList.contains("hidden")) return;
-
-  currentPage = page;
-  Object.values(pages).forEach(id => $(id).classList.add("hidden"));
-  $(pages[page]).classList.remove("hidden");
-
-  document.querySelectorAll(".nav-btn[data-page]").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.page === page);
-  });
-
-  if (page === "management") loadStudents();
+function showAuth(){
+ currentUser=null;currentRole=null;ownedCourses=[];studentCourses=[];
+ $("authScreen").classList.remove("hidden");$("dashboard").classList.add("hidden");
+ $("logoutTop").classList.add("hidden");$("manageNav").classList.add("hidden");
 }
+function showDashboard(){
+ $("authScreen").classList.add("hidden");$("dashboard").classList.remove("hidden");
+ $("logoutTop").classList.remove("hidden");
+}
+function goto(page){
+ if(page==="manage"&&!isManager())return;
+ ["home","courses","manage"].forEach(p=>$(p+"Page").classList.toggle("hidden",p!==page));
+ document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+ if(page==="courses")loadStudentCourses();
+ if(page==="manage")loadManagerCourses();
+}
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>goto(b.dataset.page)));
+document.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>goto(b.dataset.goto)));
 
-document.querySelectorAll(".nav-btn[data-page]").forEach(btn => {
-  btn.addEventListener("click", () => navigate(btn.dataset.page));
+async function enterDashboard(user){
+ currentUser=user;showDashboard();goto("home");
+ $("welcomeTitle").textContent="أهلًا بيك";
+ $("welcomeText").textContent=user.email||"حسابك التعليمي";
+ try{
+  const {data:profile,error}=await client.from("profiles").select("role,full_name").eq("id",user.id).maybeSingle();
+  if(error)throw error;
+  if(!profile)throw new Error("ملف حسابك غير موجود في profiles.");
+  currentRole=profile.role;
+  const name=profile.full_name||user.email||"مستخدم";
+  $("profileName").textContent=name;
+  $("welcomeTitle").textContent="أهلًا يا "+name;
+  $("roleBadge").textContent=currentRole==="owner"?"👑 مالك المنصة":currentRole==="host"?"🛡️ مضيف المنصة":"🎓 طالب";
+  $("manageNav").classList.toggle("hidden",!isManager());
+  if(isManager())await loadManagerCourses();
+ }catch(e){
+  currentRole=null;$("manageNav").classList.add("hidden");
+  showMsg("coursesMsg","تعذر التحقق من صلاحية الحساب: "+(e.message||"خطأ"),"error");
+ }
+}
+function friendlyError(e){
+ const m=e?.message||String(e);
+ if(/row-level security|permission denied|42501/i.test(m))return "الصلاحيات في Supabase منعت العملية. تأكد من تنفيذ سكربت إعداد الجداول والسياسات.";
+ if(/bucket not found/i.test(m))return "مخزن الملفات غير موجود. نفّذ جزء إنشاء مخزن course-files في Supabase.";
+ if(/payload too large|maximum.*size|file size/i.test(m))return "الملف أكبر من الحد المسموح أو يحتاج رفعًا متقطعًا.";
+ return m;
+}
+function validateFile(file,type){
+ if(!file)throw new Error("اختار ملفًا أولًا.");
+ if(type==="pdf"){
+  if(file.type!=="application/pdf"&&!file.name.toLowerCase().endsWith(".pdf"))throw new Error("اختار ملف PDF فقط.");
+ }else{
+  const allowed=["video/mp4","video/webm","video/quicktime"];
+  const ext=/\.(mp4|webm|mov)$/i.test(file.name);
+  if(!allowed.includes(file.type)&&!ext)throw new Error("صيغة الفيديو غير مدعومة. استخدم MP4 أو WebM أو MOV.");
+ }
+ if(file.size>500*1024*1024)throw new Error("حجم الملف يتجاوز 500 ميجابايت.");
+}
+function updateFileInput(){
+ const type=$("contentType").value;
+ $("contentFile").accept=type==="pdf"?"application/pdf":"video/mp4,video/webm,video/quicktime";
+ $("fileHint").textContent=type==="pdf"?"ملفات PDF فقط. الحد الحالي 500 ميجابايت.":"الفيديوهات المدعومة: MP4 وWebM وMOV. الحد الحالي 500 ميجابايت.";
+}
+$("contentType").addEventListener("change",updateFileInput);
+
+async function loadManagerCourses(){
+ if(!isManager())return;
+ $("manageCourses").innerHTML='<p class="status">جارٍ تحميل الكورسات...</p>';
+ try{
+  const {data,error}=await client.from("courses").select("id,title,description,is_published,created_at").order("created_at",{ascending:false});
+  if(error)throw error;
+  ownedCourses=data||[];
+  const select=$("uploadCourse");
+  select.innerHTML=ownedCourses.map(c=>`<option value="${esc(c.id)}">${esc(c.title)}${c.is_published?" — منشور":" — مسودة"}</option>`).join("");
+  if(!ownedCourses.length)select.innerHTML='<option value="">أنشئ كورسًا أولًا</option>';
+  $("manageCourses").innerHTML=ownedCourses.length?ownedCourses.map(c=>`
+   <div class="lesson">
+    <strong>${esc(c.title)}</strong><p>${esc(c.description||"بدون وصف")}</p>
+    <span class="badge">${c.is_published?"منشور للطلاب":"مسودة غير منشورة"}</span>
+    <div style="margin-top:10px"><button class="btn ${c.is_published?"secondary":""}" data-toggle-course="${esc(c.id)}" data-published="${c.is_published}">${c.is_published?"إلغاء النشر":"نشر الكورس"}</button></div>
+   </div>`).join(""):'<p class="status">لسه مفيش كورسات. أنشئ أول كورس من النموذج أعلاه.</p>';
+  $("manageCourses").querySelectorAll("[data-toggle-course]").forEach(b=>b.onclick=()=>togglePublish(b.dataset.toggleCourse,b.dataset.published==="true"));
+ }catch(e){
+  $("manageCourses").innerHTML="";
+  showMsg("manageMsg","تعذر تحميل الكورسات: "+friendlyError(e));
+ }
+}
+async function togglePublish(id,isPublished){
+ hideMsg("manageMsg");
+ try{
+  const {error}=await client.from("courses").update({is_published:!isPublished}).eq("id",id);
+  if(error)throw error;
+  showMsg("manageMsg",!isPublished?"تم نشر الكورس.":"تم إلغاء نشر الكورس.","success");
+  await loadManagerCourses();
+ }catch(e){showMsg("manageMsg","تعذر تغيير حالة النشر: "+friendlyError(e));}
+}
+$("courseForm").addEventListener("submit",async e=>{
+ e.preventDefault();hideMsg("createCourseMsg");
+ if(!isManager())return showMsg("createCourseMsg","حسابك لا يملك صلاحية إنشاء الكورسات.");
+ const title=$("courseTitle").value.trim(),description=$("courseDescription").value.trim();
+ if(!title)return showMsg("createCourseMsg","اكتب اسم الكورس.");
+ $("createCourseButton").disabled=true;
+ try{
+  const {data,error}=await client.from("courses").insert({
+   title,description,is_published:false,created_by:currentUser.id
+  }).select("id").single();
+  if(error)throw error;
+  $("courseForm").reset();
+  showMsg("createCourseMsg","تم إنشاء الكورس كمسودة. أضف الدروس أو الملازم ثم انشره.","success");
+  await loadManagerCourses();
+  $("uploadCourse").value=data.id;
+ }catch(e){showMsg("createCourseMsg","تعذر إنشاء الكورس: "+friendlyError(e));}
+ finally{$("createCourseButton").disabled=false;}
 });
 
-async function showDashboard(user) {
-  currentUser = user;
-  showDashboardBase();
-  navigate("home");
-  $("welcomeTitle").textContent = "أهلًا بيك";
-  $("welcomeText").textContent = user.email || "حسابك التعليمي";
-  $("roleTag").textContent = "جارٍ التحقق من الصلاحية...";
-  $("sideName").textContent = "حسابي";
-  $("sideRole").textContent = "جارٍ التحقق...";
-  $("avatarInitial").textContent = "أ";
-  $("ownerNav").classList.add("hidden");
-  $("homeNotice").textContent = "جارٍ تحميل بيانات حسابك...";
-
-  try {
-    const { data: profile, error } = await client
-      .from("profiles")
-      .select("role, full_name")
-      .eq("id", user.id)
-      .maybeSingle();
-
-    if (error) throw error;
-
-    if (!profile) {
-      $("roleTag").textContent = "الحساب";
-      $("sideRole").textContent = "غير مكتمل";
-      $("welcomeText").textContent = "ملف الحساب غير موجود. تواصل مع إدارة المنصة.";
-      $("homeNotice").textContent = "تعذّر العثور على ملف الحساب.";
-      $("profileError").textContent = "لم نعثر على سجل لهذا الحساب في جدول profiles. لن نعرض لوحة إدارة.";
-      $("profileError").classList.remove("hidden");
-      return;
-    }
-
-    const name = profile.full_name || "صاحب الحساب";
-    $("welcomeTitle").textContent = "أهلًا يا " + name;
-    $("welcomeText").textContent = user.email || "";
-    $("sideName").textContent = name;
-    $("avatarInitial").textContent = [...name][0] || "أ";
-
-    if (profile.role === "owner") {
-      $("roleTag").textContent = "👑 مالك المنصة";
-      $("sideRole").textContent = "مالك المنصة";
-      $("ownerNav").classList.remove("hidden");
-      $("homeNotice").textContent = "أهلًا بمالك المنصة. افتح إدارة المنصة لعرض بيانات الطلاب المسجلين.";
-    } else if (profile.role === "host") {
-      $("roleTag").textContent = "🛡️ مضيف المنصة";
-      $("sideRole").textContent = "مضيف المنصة";
-      $("homeNotice").textContent = "حساب المضيف موجود، وسيتم تفعيل أدواته بعد تجهيز صلاحياته.";
-    } else {
-      $("roleTag").textContent = "🎓 طالب";
-      $("sideRole").textContent = "طالب";
-      $("homeNotice").textContent = "أهلًا بيك في منصتك التعليمية. الأقسام التعليمية هتظهر بعد تجهيز المحتوى وربطه بقاعدة البيانات.";
-    }
-  } catch (error) {
-    console.error("Profile lookup failed:", error);
-    $("roleTag").textContent = "تعذّر التحقق";
-    $("sideRole").textContent = "تعذّر التحقق";
-    $("homeNotice").textContent = "تعذّر تحميل بيانات الحساب.";
-    $("profileError").textContent = "خطأ في تحميل الصلاحية: " + (error?.message || "خطأ غير معروف");
-    $("profileError").classList.remove("hidden");
-  }
-}
-
-/* إدارة بيانات الطلاب */
-function safeText(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
-  })[char]);
-}
-
-function renderStudents() {
-  const query = $("studentSearch").value.trim().toLocaleLowerCase();
-  const filtered = allStudents.filter(student => {
-    const values = [
-      student.full_name,
-      student.student_phone,
-      student.guardian_phone,
-      student.student_number
-    ];
-    return values.some(value =>
-      String(value ?? "").toLocaleLowerCase().includes(query)
-    );
+$("uploadForm").addEventListener("submit",async e=>{
+ e.preventDefault();hideMsg("uploadMsg");
+ if(!isManager())return showMsg("uploadMsg","حسابك لا يملك صلاحية رفع المحتوى.");
+ const courseId=$("uploadCourse").value;
+ const title=$("contentTitle").value.trim();
+ const description=$("contentDescription").value.trim();
+ const type=$("contentType").value;
+ const file=$("contentFile").files[0];
+ try{validateFile(file,type);}catch(e){return showMsg("uploadMsg",e.message);}
+ if(!courseId)return showMsg("uploadMsg","أنشئ كورسًا واختاره أولًا.");
+ $("uploadButton").disabled=true;
+ showMsg("uploadMsg","جارٍ رفع الملف. لا تغلق الصفحة حتى يكتمل الرفع.","success");
+ try{
+  const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+  const path=`${courseId}/${type==="pdf"?"pdf":"videos"}/${crypto.randomUUID()}-${safeName}`;
+  const {error:uploadError}=await client.storage.from(BUCKET).upload(path,file,{
+   contentType:file.type|| (type==="pdf"?"application/pdf":"video/mp4"),
+   upsert:false
   });
+  if(uploadError)throw uploadError;
 
-  $("studentsTableBody").innerHTML = filtered.length
-    ? filtered.map(student => `
-      <tr>
-        <td>${safeText(student.full_name || "—")}</td>
-        <td>${safeText(student.student_phone || "—")}</td>
-        <td>${safeText(student.guardian_phone || "—")}</td>
-        <td>${safeText(student.student_number || "—")}</td>
-        <td>${safeText(student.created_at
-          ? new Date(student.created_at).toLocaleDateString("ar-EG")
-          : "—")}</td>
-      </tr>
-    `).join("")
-    : `<tr><td colspan="5">لا توجد نتائج مطابقة للبحث.</td></tr>`;
-
-  $("studentsCount").textContent = query
-    ? `${filtered.length} من ${allStudents.length} طالب`
-    : `${allStudents.length} طالب`;
-
-  if (allStudents.length === 0) {
-    $("studentsStatus").textContent =
-      "لم يتم العثور على سجلات طلاب ظاهرة. لو عندك حسابات طلاب بالفعل، راجع دور الحساب وسياسات القراءة في Supabase.";
-  } else {
-    $("studentsStatus").textContent =
-      `تم تحميل ${allStudents.length} سجل طالب. النتائج المعروضة: ${filtered.length}.`;
+  let insertResult;
+  if(type==="video"){
+   const {data:existing,error:existingError}=await client.from("lessons").select("position").eq("course_id",courseId).order("position",{ascending:false}).limit(1);
+   if(existingError)throw existingError;
+   const position=(existing?.[0]?.position||0)+1;
+   insertResult=await client.from("lessons").insert({
+    course_id:courseId,title,description,video_path:path,position,created_by:currentUser.id
+   });
+  }else{
+   insertResult=await client.from("course_materials").insert({
+    course_id:courseId,title,file_path:path,created_by:currentUser.id
+   });
   }
-}
-
-async function loadStudents() {
-  if (!client || !currentUser) {
-    $("studentsStatus").textContent = "سجّل الدخول بحساب المالك لعرض بيانات الطلاب.";
-    return;
+  if(insertResult.error){
+   await client.storage.from(BUCKET).remove([path]);
+   throw insertResult.error;
   }
-
-  $("refreshStudents").disabled = true;
-  $("studentsStatus").textContent = "جارٍ تحميل بيانات الطلاب...";
-  $("studentsTableBody").innerHTML =
-    `<tr><td colspan="5">جارٍ تحميل البيانات...</td></tr>`;
-
-  try {
-    const { data: authData, error: authError } = await client.auth.getUser();
-    if (authError) throw authError;
-
-    const user = authData?.user;
-    if (!user) throw new Error("انتهت جلسة الدخول. سجّل الدخول مرة أخرى.");
-
-    const { data: ownerProfile, error: ownerError } = await client
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .maybeSingle();
-
-    if (ownerError) throw ownerError;
-    if (!ownerProfile || ownerProfile.role !== "owner") {
-      throw new Error("عرض بيانات جميع الطلاب متاح لحساب المالك فقط.");
-    }
-
-    const { data, error } = await client
-      .from("profiles")
-      .select("id, full_name, student_phone, guardian_phone, student_number, role, created_at")
-      .eq("role", "student")
-      .order("created_at", { ascending: false });
-
-    if (error) throw error;
-
-    allStudents = data || [];
-    renderStudents();
-
-  } catch (error) {
-    console.error("Load students failed:", error);
-    allStudents = [];
-    $("studentsCount").textContent = "—";
-    $("studentsTableBody").innerHTML =
-      `<tr><td colspan="5">تعذّر تحميل بيانات الطلاب.</td></tr>`;
-
-    const raw = error?.message || "خطأ غير معروف";
-    if (/row-level security|permission denied|not allowed|42501/i.test(raw)) {
-      $("studentsStatus").textContent =
-        "Supabase منع قراءة بيانات الطلاب بسبب الصلاحيات (RLS). لازم نراجع سياسة القراءة المخصصة للمالك في جدول profiles.";
-    } else {
-      $("studentsStatus").textContent = "تعذّر تحميل البيانات: " + raw;
-    }
-  } finally {
-    $("refreshStudents").disabled = false;
-  }
-}
-
-$("studentSearch").addEventListener("input", renderStudents);
-$("refreshStudents").addEventListener("click", loadStudents);
-
-$("loginTab").addEventListener("click", () => setMode("login"));
-$("signupTab").addEventListener("click", () => setMode("signup"));
-
-$("authForm").addEventListener("submit", async event => {
-  event.preventDefault();
-  if (busy) return;
-  clearMessage();
-
-  if (!window.supabase) {
-    message("مكتبة Supabase لم يتم تحميلها. تحقق من اتصال الإنترنت ثم حدّث الصفحة.");
-    return;
-  }
-  if (!client) {
-    try {
-      client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-    } catch (error) {
-      console.error("Supabase client initialization failed:", error);
-      message("تعذر تجهيز الاتصال بـ Supabase: " + (error?.message || "خطأ غير معروف"));
-      return;
-    }
-  }
-
-  const email = $("email").value.trim();
-  const password = $("password").value;
-  setBusy(true);
-
-  try {
-    if (mode === "signup") {
-      const fullName = $("fullName").value.trim();
-      const studentPhone = $("studentPhone").value.trim();
-      const guardianPhone = $("guardianPhone").value.trim();
-
-      if (fullName.split(/\s+/).filter(Boolean).length < 4) {
-        message("من فضلك اكتب الاسم الرباعي كاملًا.");
-        return;
-      }
-      if (!studentPhone || !guardianPhone) {
-        message("اكتب رقم موبايل الطالب ورقم ولي الأمر.");
-        return;
-      }
-
-      const { data, error } = await client.auth.signUp({
-        email, password,
-        options: { data: {
-          full_name: fullName,
-          student_phone: studentPhone,
-          guardian_phone: guardianPhone
-        }}
-      });
-      if (error) throw error;
-
-      if (data.session && data.user) {
-        await showDashboard(data.user);
-      } else {
-        setMode("login");
-        message("تم إرسال طلب إنشاء الحساب. افتح بريدك وأكّد الحساب لو طُلب منك ذلك.", "success");
-      }
-    } else {
-      const { data, error } = await client.auth.signInWithPassword({ email, password });
-      if (error) throw error;
-      if (!data?.user) throw new Error("تمت الاستجابة دون بيانات مستخدم. جرّب تحديث الصفحة.");
-      await showDashboard(data.user);
-    }
-  } catch (error) {
-    console.error("Authentication failed:", error);
-    const raw = error?.message || "خطأ غير معروف";
-    let friendly = raw;
-
-    if (/invalid login credentials/i.test(raw)) {
-      friendly = "البريد الإلكتروني أو كلمة المرور غير صحيحة. تأكد من البيانات، ولا تنشئ حسابًا جديدًا قبل التأكد من الحساب الحالي.";
-    } else if (/email not confirmed/i.test(raw)) {
-      friendly = "البريد الإلكتروني غير مؤكّد. راجع رسالة التأكيد في بريدك أو إعدادات تأكيد البريد في Supabase.";
-    } else if (/failed to fetch|networkerror|fetch failed/i.test(raw)) {
-      friendly = "تعذّر الاتصال بـ Supabase. تأكد من الإنترنت، وحاول فتح الصفحة بعد قليل.";
-    } else if (/too many requests/i.test(raw)) {
-      friendly = "محاولات كثيرة في وقت قصير. انتظر قليلًا ثم حاول مرة أخرى.";
-    }
-
-    message("خطأ تسجيل الدخول: " + friendly);
-  } finally {
-    setBusy(false);
-  }
+  $("uploadForm").reset();updateFileInput();
+  showMsg("uploadMsg","تم رفع الملف وربطه بالكورس بنجاح. الكورس لا يظهر للطلاب إلا بعد نشره.","success");
+  await loadManagerCourses();
+ }catch(e){
+  showMsg("uploadMsg","تعذر رفع المحتوى: "+friendlyError(e));
+ }finally{$("uploadButton").disabled=false;}
 });
 
-async function logout() {
-  $("logoutButton").disabled = true;
-  $("logoutTop").disabled = true;
-  try {
-    if (!client) throw new Error("الاتصال بقاعدة البيانات غير جاهز.");
-    const { error } = await client.auth.signOut();
-    if (error) throw error;
-    showAuth();
-    setMode("login");
-    $("password").value = "";
-    message("تم تسجيل الخروج بنجاح.", "success");
-  } catch (error) {
-    console.error("Sign out failed:", error);
-    message("تعذّر تسجيل الخروج: " + (error?.message || "خطأ غير معروف"));
-  } finally {
-    $("logoutButton").disabled = false;
-    $("logoutTop").disabled = false;
-  }
+async function getSignedUrl(path){
+ const {data,error}=await client.storage.from(BUCKET).createSignedUrl(path,900);
+ if(error)throw error;
+ return data.signedUrl;
 }
-$("logoutButton").addEventListener("click", logout);
-$("logoutTop").addEventListener("click", logout);
-
-async function initialize() {
-  try {
-    if (!window.supabase) {
-      showAuth();
-      message("مكتبة Supabase لم يتم تحميلها. تحقق من اتصال الإنترنت ثم حدّث الصفحة.");
-      return;
-    }
-
-    client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-    const { data, error } = await client.auth.getSession();
-    if (error) throw error;
-
-    if (data.session?.user) await showDashboard(data.session.user);
-
-    client.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_OUT") {
-        showAuth();
-      } else if (event === "SIGNED_IN" && session?.user) {
-        showDashboard(session.user);
-      }
-    });
-  } catch (error) {
-    console.error("Initialization failed:", error);
-    showAuth();
-    message("تعذّر الاتصال بخدمات تسجيل الدخول: " + (error?.message || "خطأ غير معروف"));
+async function loadStudentCourses(){
+ $("courseList").innerHTML='<p class="status">جارٍ تحميل الكورسات...</p>';
+ try{
+  const {data:courses,error}=await client.from("courses").select("id,title,description,created_at").eq("is_published",true).order("created_at",{ascending:false});
+  if(error)throw error;
+  studentCourses=courses||[];
+  if(!studentCourses.length){
+   $("courseList").innerHTML='<div class="course-card"><h3>لسه مفيش كورسات منشورة</h3><p>لما المدرس ينشر كورس، هيظهر هنا.</p></div>';return;
   }
+  $("courseList").innerHTML=studentCourses.map(c=>`
+   <article class="course-card">
+    <h3>${esc(c.title)}</h3><p>${esc(c.description||"")}</p>
+    <button class="btn" data-open-course="${esc(c.id)}">عرض الدروس والملازم</button>
+    <div id="courseContent-${esc(c.id)}" class="hidden"></div>
+   </article>`).join("");
+  $("courseList").querySelectorAll("[data-open-course]").forEach(b=>b.onclick=()=>openCourse(b.dataset.openCourse));
+ }catch(e){
+  $("courseList").innerHTML="";
+  showMsg("coursesMsg","تعذر تحميل الكورسات: "+friendlyError(e));
+ }
 }
+async function openCourse(courseId){
+ const target=$("courseContent-"+courseId);
+ if(!target)return;
+ if(!target.classList.contains("hidden")){target.classList.add("hidden");return;}
+ target.classList.remove("hidden");
+ target.innerHTML='<p class="status">جارٍ تحميل الدروس والملفات...</p>';
+ try{
+  const [{data:lessons,error:lError},{data:materials,error:mError}]=await Promise.all([
+   client.from("lessons").select("id,title,description,video_path,position").eq("course_id",courseId).order("position"),
+   client.from("course_materials").select("id,title,file_path,created_at").eq("course_id",courseId).order("created_at")
+  ]);
+  if(lError)throw lError;if(mError)throw mError;
+  let html="<h4>🎥 الدروس</h4>";
+  if(!lessons?.length)html+='<p class="status">لا توجد دروس مضافة حتى الآن.</p>';
+  for(const lesson of lessons||[]){
+   const url=await getSignedUrl(lesson.video_path);
+   html+=`<div class="lesson"><strong>${esc(lesson.position)}. ${esc(lesson.title)}</strong><p>${esc(lesson.description||"")}</p><video controls preload="metadata" playsinline src="${esc(url)}"></video></div>`;
+  }
+  html+="<hr><h4>📝 الملازم والملفات</h4>";
+  if(!materials?.length)html+='<p class="status">لا توجد ملازم مضافة حتى الآن.</p>';
+  for(const material of materials||[]){
+   const url=await getSignedUrl(material.file_path);
+   html+=`<div class="lesson"><strong>${esc(material.title)}</strong><br><a class="file-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer">فتح ملف PDF ↗</a></div>`;
+  }
+  target.innerHTML=html;
+ }catch(e){target.innerHTML=`<p class="status">تعذر تحميل محتوى الكورس: ${esc(friendlyError(e))}</p>`;}
+}
+$("reloadCourses").onclick=loadStudentCourses;
 
+$("authForm").addEventListener("submit",async e=>{
+ e.preventDefault();if(busy)return;busy=true;$("submitButton").disabled=true;hideMsg("authMsg");
+ try{
+  if(!window.supabase)throw new Error("مكتبة Supabase لم تُحمّل. تحقق من الإنترنت.");
+  if(!client)client=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+  const email=$("email").value.trim(),password=$("password").value;
+  if(mode==="signup"){
+   const full_name=$("fullName").value.trim();
+   const student_phone=$("studentPhone").value.trim();
+   const guardian_phone=$("guardianPhone").value.trim();
+   if(full_name.split(/\s+/).filter(Boolean).length<4)throw new Error("اكتب الاسم الرباعي كاملًا.");
+   if(!student_phone||!guardian_phone)throw new Error("اكتب رقم الطالب ورقم ولي الأمر.");
+   const {data,error}=await client.auth.signUp({email,password,options:{data:{full_name,student_phone,guardian_phone}}});
+   if(error)throw error;
+   if(data.session&&data.user)await enterDashboard(data.user);
+   else showMsg("authMsg","تم إرسال طلب التسجيل. أكّد بريدك الإلكتروني إن طلب منك ذلك، ثم سجّل الدخول.","success");
+  }else{
+   const {data,error}=await client.auth.signInWithPassword({email,password});
+   if(error)throw error;
+   if(!data.user)throw new Error("لم يرجع Supabase بيانات المستخدم.");
+   await enterDashboard(data.user);
+  }
+ }catch(e){showMsg("authMsg","تعذر تنفيذ العملية: "+friendlyError(e));}
+ finally{$("submitButton").disabled=false;$("submitButton").textContent=mode==="login"?"تسجيل الدخول":"إنشاء الحساب";busy=false;}
+});
+async function logout(){
+ try{
+  const {error}=await client.auth.signOut();if(error)throw error;
+  showAuth();setMode("login");$("password").value="";
+ }catch(e){alert("تعذر تسجيل الخروج: "+friendlyError(e));}
+}
+$("logoutButton").onclick=logout;$("logoutTop").onclick=logout;
+
+async function initialize(){
+ try{
+  if(!window.supabase)throw new Error("مكتبة Supabase لم تُحمّل.");
+  client=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+  const {data,error}=await client.auth.getSession();if(error)throw error;
+  if(data.session?.user)await enterDashboard(data.session.user);
+  client.auth.onAuthStateChange((event,session)=>{
+   if(event==="SIGNED_OUT")showAuth();
+   else if(event==="SIGNED_IN"&&session?.user)enterDashboard(session.user);
+  });
+ }catch(e){showAuth();showMsg("authMsg","تعذر الاتصال: "+friendlyError(e));}
+}
 initialize();
 </script>
 </body>
