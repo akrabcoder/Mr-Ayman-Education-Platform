@@ -21,25 +21,14 @@ button{cursor:pointer}
 button:disabled{opacity:.5;cursor:not-allowed}
 .hidden{display:none!important}
 .muted{color:var(--muted)}
-header{
-  min-height:76px;padding:14px 4%;display:flex;align-items:center;
-  justify-content:space-between;gap:15px;border-bottom:1px solid var(--border);
-  background:#081426ed;position:sticky;top:0;z-index:10;backdrop-filter:blur(16px)
-}
+header{min-height:76px;padding:14px 4%;display:flex;align-items:center;justify-content:space-between;gap:15px;border-bottom:1px solid var(--border);background:#081426ed;position:sticky;top:0;z-index:10;backdrop-filter:blur(16px)}
 .brand{display:flex;align-items:center;gap:12px}
-.logo{
-  width:45px;height:45px;border-radius:15px;display:grid;place-items:center;
-  font-size:24px;font-weight:bold;background:linear-gradient(135deg,#3679ff,#66dcff);
-  box-shadow:0 5px 24px #3985ff35;color:white
-}
+.logo{width:45px;height:45px;border-radius:15px;display:grid;place-items:center;font-size:24px;font-weight:bold;background:linear-gradient(135deg,#3679ff,#66dcff);box-shadow:0 5px 24px #3985ff35;color:white}
 .brand h1{font-size:15px;margin:0 0 5px}
 .brand small{font-size:10px;color:var(--muted);letter-spacing:.5px}
 .top-actions{display:flex;align-items:center;gap:10px}
 .badge{font-size:11px;color:var(--green);border:1px solid #60e3b044;border-radius:30px;padding:9px 12px}
-.btn{
-  border:1px solid transparent;background:linear-gradient(110deg,#367bfa,#267fdf);
-  color:white;border-radius:11px;padding:12px 16px;font-weight:bold;transition:.2s
-}
+.btn{border:1px solid transparent;background:linear-gradient(110deg,#367bfa,#267fdf);color:white;border-radius:11px;padding:12px 16px;font-weight:bold;transition:.2s}
 .btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
 .btn.secondary{background:#172943;border-color:var(--border)}
 .btn.full{width:100%;margin-top:8px}
@@ -68,24 +57,15 @@ input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #4388ff16}
 .workspace{display:grid;grid-template-columns:235px minmax(0,1fr);gap:22px;align-items:start}
 .sidebar{background:#0d1c30;border:1px solid var(--border);border-radius:18px;padding:17px;position:sticky;top:95px}
 .side-title{font-size:10px;color:#8196b3;margin:5px 10px 13px}
-.nav-btn{
-  width:100%;display:flex;align-items:center;gap:12px;text-align:right;
-  border:1px solid transparent;background:transparent;color:#b9c8dd;
-  padding:12px;border-radius:11px;margin:4px 0;font-size:13px
-}
+.nav-btn{width:100%;display:flex;align-items:center;gap:12px;text-align:right;border:1px solid transparent;background:transparent;color:#b9c8dd;padding:12px;border-radius:11px;margin:4px 0;font-size:13px}
 .nav-btn:hover,.nav-btn.active{background:#3985ff19;border-color:#3985ff30;color:white}
 .nav-btn .ni{width:24px;text-align:center;font-size:17px}
 .sidebar-foot{margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
 .content{min-width:0}
-.welcome{
-  border:1px solid #2a4a70;border-radius:20px;padding:27px;
-  background:radial-gradient(ellipse at top left,#1a4773 0%,transparent 65%),linear-gradient(120deg,#122640,#0d192b);
-  position:relative;overflow:hidden;margin-bottom:22px
-}
+.welcome{border:1px solid #2a4a70;border-radius:20px;padding:27px;background:radial-gradient(ellipse at top left,#1a4773 0%,transparent 65%),linear-gradient(120deg,#122640,#0d192b);position:relative;overflow:hidden;margin-bottom:22px}
 .welcome:after{content:"أ";position:absolute;left:22px;top:-30px;font-size:190px;font-weight:bold;color:#ffffff08;pointer-events:none}
-.welcome h2{position:relative;z-index:1}
-.welcome p{position:relative;z-index:1;color:#b7c9e1;margin-bottom:0;font-size:13px}
-.welcome .tag{position:relative;z-index:1}
+.welcome h2,.welcome p,.welcome .tag{position:relative;z-index:1}
+.welcome p{color:#b7c9e1;margin-bottom:0;font-size:13px}
 .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-bottom:22px}
 .stat{position:relative;overflow:hidden}
 .stat .stat-icon{font-size:22px}
@@ -106,184 +86,111 @@ input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #4388ff16}
 .profile-strip strong{font-size:12px;display:block;overflow-wrap:anywhere}
 .profile-strip small{font-size:10px;color:var(--muted)}
 footer{text-align:center;color:#7186a3;font-size:11px;padding:22px;line-height:2;border-top:1px solid #1a2d45}
-@media(max-width:850px){
- .workspace{grid-template-columns:1fr}
- .sidebar{position:static;padding:10px}
- .nav-list{display:flex;overflow-x:auto;gap:5px}
- .nav-btn{width:auto;white-space:nowrap;flex-shrink:0;margin:0}
- .side-title,.sidebar-foot{display:none}
- .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
-}
-@media(max-width:600px){
- header{padding:12px 4%;min-height:68px}
- .brand h1{font-size:12px}.brand small{font-size:8px}
- .logo{width:39px;height:39px}
- .badge{display:none}
- main{width:92%;margin-top:20px}
- .layout{grid-template-columns:1fr;gap:22px}
- .panel{padding:18px}
- .features{gap:9px}
- .card{padding:14px}
- .card h3{font-size:13px}
- .stats{grid-template-columns:1fr}
- .stat{display:grid;grid-template-columns:38px 1fr;align-items:center;column-gap:10px}
- .stat .stat-icon{grid-row:span 2}
- .stat strong{margin:0 0 5px;font-size:20px}
- .stat span{align-self:end}
- .welcome{padding:22px}
- .welcome:after{font-size:130px}
- .nav-btn{font-size:12px;padding:10px}
-}
+@media(max-width:850px){.workspace{grid-template-columns:1fr}.sidebar{position:static;padding:10px}.nav-list{display:flex;overflow-x:auto;gap:5px}.nav-btn{width:auto;white-space:nowrap;flex-shrink:0;margin:0}.side-title,.sidebar-foot{display:none}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){header{padding:12px 4%;min-height:68px}.brand h1{font-size:12px}.brand small{font-size:8px}.logo{width:39px;height:39px}.badge{display:none}main{width:92%;margin-top:20px}.layout{grid-template-columns:1fr;gap:22px}.panel{padding:18px}.features{gap:9px}.card{padding:14px}.card h3{font-size:13px}.stats{grid-template-columns:1fr}.stat{display:grid;grid-template-columns:38px 1fr;align-items:center;column-gap:10px}.stat .stat-icon{grid-row:span 2}.stat strong{margin:0 0 5px;font-size:20px}.stat span{align-self:end}.welcome{padding:22px}.welcome:after{font-size:130px}.nav-btn{font-size:12px;padding:10px}}
 </style>
 </head>
 <body>
 <header>
-  <div class="brand">
-    <div class="logo">أ</div>
-    <div>
-      <h1>منصة مستر أيمن الشوربجي</h1>
-      <small>MR AYMAN EDUCATION PLATFORM</small>
-    </div>
-  </div>
-  <div class="top-actions">
-    <span class="badge" id="statusBadge">منصتك التعليمية</span>
-    <button class="btn secondary hidden" id="logoutTop" type="button">خروج</button>
-  </div>
+  <div class="brand"><div class="logo">أ</div><div><h1>منصة مستر أيمن الشوربجي</h1><small>MR AYMAN EDUCATION PLATFORM</small></div></div>
+  <div class="top-actions"><span class="badge" id="statusBadge">منصتك التعليمية</span><button class="btn secondary hidden" id="logoutTop" type="button">خروج</button></div>
 </header>
-
 <main>
-  <section id="authScreen" class="layout">
-    <div>
-      <span class="tag">✦ بوابتك نحو التفوق</span>
-      <h2>مستقبلك يبدأ بخطوة <span style="color:var(--cyan)">علم</span></h2>
-      <p class="muted">تجربة تعليمية منظمة تساعدك تتابع دروسك ومحتواك من مكان واحد، وتخلي رحلتك الدراسية أوضح وأسهل.</p>
-      <div class="features">
-        <div class="card"><div class="icon">📚</div><h3>الكورسات</h3><p>مساحة منظمة للدروس التعليمية.</p></div>
-        <div class="card"><div class="icon">📝</div><h3>الملازم</h3><p>ملفات ومراجعاتك في مكان واحد.</p></div>
-        <div class="card"><div class="icon">📊</div><h3>الدرجات</h3><p>متابعة مستواك الدراسي.</p></div>
-        <div class="card"><div class="icon">💬</div><h3>الأسئلة</h3><p>قسم مخصص للاستفسارات التعليمية.</p></div>
-      </div>
-    </div>
+<section id="authScreen" class="layout">
+<div>
+<span class="tag">✦ بوابتك نحو التفوق</span>
+<h2>مستقبلك يبدأ بخطوة <span style="color:var(--cyan)">علم</span></h2>
+<p class="muted">تجربة تعليمية منظمة تساعدك تتابع دروسك ومحتواك من مكان واحد، وتخلي رحلتك الدراسية أوضح وأسهل.</p>
+<div class="features">
+<div class="card"><div class="icon">📚</div><h3>الكورسات</h3><p>مساحة منظمة للدروس التعليمية.</p></div>
+<div class="card"><div class="icon">📝</div><h3>الملازم</h3><p>ملفات ومراجعاتك في مكان واحد.</p></div>
+<div class="card"><div class="icon">📊</div><h3>الدرجات</h3><p>متابعة مستواك الدراسي.</p></div>
+<div class="card"><div class="icon">💬</div><h3>الأسئلة</h3><p>قسم مخصص للاستفسارات التعليمية.</p></div>
+</div>
+</div>
+<div class="panel">
+<div id="authForms">
+<span class="tag">حسابك التعليمي</span>
+<h2 id="formTitle" style="font-size:25px">أهلًا بيك 👋</h2>
+<p class="muted" id="formSubtitle" style="font-size:13px">سجّل دخولك لحسابك التعليمي.</p>
+<div class="tabs"><button class="tab active" id="loginTab" type="button">تسجيل الدخول</button><button class="tab" id="signupTab" type="button">حساب جديد</button></div>
+<form id="authForm">
+<div id="signupFields" class="hidden">
+<div class="field"><label for="fullName">الاسم الرباعي</label><input id="fullName" autocomplete="name" maxlength="120" placeholder="اكتب اسمك الرباعي"></div>
+<div class="field"><label for="studentPhone">موبايل الطالب</label><input id="studentPhone" type="tel" autocomplete="tel" maxlength="20" placeholder="رقم الموبايل"></div>
+<div class="field"><label for="guardianPhone">موبايل ولي الأمر</label><input id="guardianPhone" type="tel" maxlength="20" placeholder="رقم ولي الأمر"></div>
+</div>
+<div class="field"><label for="email">البريد الإلكتروني</label><input id="email" type="email" required autocomplete="email" maxlength="254" placeholder="name@example.com"></div>
+<div class="field"><label for="password">كلمة المرور</label><input id="password" type="password" required minlength="8" maxlength="128" autocomplete="current-password" placeholder="8 أحرف على الأقل"></div>
+<button class="btn full" id="submitButton" type="submit">تسجيل الدخول</button>
+</form>
+<div id="message" class="message" role="status" aria-live="polite"></div>
+</div>
+</div>
+</section>
 
-    <div class="panel">
-      <div id="authForms">
-        <span class="tag">حسابك التعليمي</span>
-        <h2 id="formTitle" style="font-size:25px">أهلًا بيك 👋</h2>
-        <p class="muted" id="formSubtitle" style="font-size:13px">سجّل دخولك لحسابك التعليمي.</p>
-        <div class="tabs">
-          <button class="tab active" id="loginTab" type="button">تسجيل الدخول</button>
-          <button class="tab" id="signupTab" type="button">حساب جديد</button>
-        </div>
-        <form id="authForm">
-          <div id="signupFields" class="hidden">
-            <div class="field"><label for="fullName">الاسم الرباعي</label><input id="fullName" autocomplete="name" maxlength="120" placeholder="اكتب اسمك الرباعي"></div>
-            <div class="field"><label for="studentPhone">موبايل الطالب</label><input id="studentPhone" type="tel" autocomplete="tel" maxlength="20" placeholder="رقم الموبايل"></div>
-            <div class="field"><label for="guardianPhone">موبايل ولي الأمر</label><input id="guardianPhone" type="tel" maxlength="20" placeholder="رقم ولي الأمر"></div>
-          </div>
-          <div class="field"><label for="email">البريد الإلكتروني</label><input id="email" type="email" required autocomplete="email" maxlength="254" placeholder="name@example.com"></div>
-          <div class="field"><label for="password">كلمة المرور</label><input id="password" type="password" required minlength="8" maxlength="128" autocomplete="current-password" placeholder="8 أحرف على الأقل"></div>
-          <button class="btn full" id="submitButton" type="submit">تسجيل الدخول</button>
-        </form>
-        <div id="message" class="message" role="status" aria-live="polite"></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="dashboard" class="hidden">
-    <div class="workspace">
-      <aside class="sidebar">
-        <div class="side-title">القائمة الرئيسية</div>
-        <nav class="nav-list" aria-label="التنقل داخل المنصة">
-          <button class="nav-btn active" data-page="home" type="button"><span class="ni">⌂</span> الرئيسية</button>
-          <button class="nav-btn" data-page="courses" type="button"><span class="ni">📚</span> الكورسات</button>
-          <button class="nav-btn" data-page="notes" type="button"><span class="ni">📝</span> الملازم</button>
-          <button class="nav-btn" data-page="grades" type="button"><span class="ni">📊</span> الدرجات</button>
-          <button class="nav-btn" data-page="questions" type="button"><span class="ni">💬</span> الأسئلة</button>
-          <button class="nav-btn hidden" id="ownerNav" data-page="management" type="button"><span class="ni">🛡️</span> إدارة المنصة</button>
-        </nav>
-        <div class="sidebar-foot">
-          <div class="profile-strip">
-            <div class="avatar" id="avatarInitial">أ</div>
-            <div style="min-width:0">
-              <strong id="sideName">حسابي</strong>
-              <small id="sideRole">حساب تعليمي</small>
-            </div>
-          </div>
-          <button class="btn secondary full" id="logoutButton" type="button">تسجيل الخروج</button>
-        </div>
-      </aside>
-
-      <div class="content">
-        <div class="welcome">
-          <span class="tag" id="roleTag">لوحة الحساب</span>
-          <h2 id="welcomeTitle">أهلًا بيك</h2>
-          <p id="welcomeText">مرحبًا بك في منصتك التعليمية.</p>
-        </div>
-
-        <div id="homeView" class="section-view">
-          <div class="stats">
-            <div class="card stat"><div class="stat-icon">📚</div><div><strong id="courseCount">—</strong><span>الكورسات المتاحة</span></div></div>
-            <div class="card stat"><div class="stat-icon">📝</div><div><strong id="noteCount">—</strong><span>الملازم والملفات</span></div></div>
-            <div class="card stat"><div class="stat-icon">📊</div><div><strong id="gradeCount">—</strong><span>الدرجات المسجلة</span></div></div>
-          </div>
-          <div id="homeNotice" class="note">أهلًا بيك في المنصة. الأقسام التعليمية ستظهر هنا بعد ربط المحتوى بقاعدة البيانات.</div>
-          <div class="section-head"><div><h2>أقسام المنصة</h2><p>كل احتياجاتك التعليمية في مكان واحد.</p></div></div>
-          <div class="features" style="margin-top:0">
-            <div class="card"><div class="icon">📚</div><h3>الكورسات</h3><p>الوصول إلى الدروس التعليمية عند نشر المحتوى.</p></div>
-            <div class="card"><div class="icon">📝</div><h3>الملازم</h3><p>ملفات المراجعة والمواد الدراسية.</p></div>
-            <div class="card"><div class="icon">📈</div><h3>متابعة المستوى</h3><p>الدرجات والتقدم الدراسي بعد التفعيل.</p></div>
-            <div class="card"><div class="icon">💬</div><h3>اسأل فريق التدريس</h3><p>نظام الأسئلة والردود قيد التجهيز.</p></div>
-          </div>
-        </div>
-
-        <div id="coursesView" class="section-view hidden">
-          <div class="section-head"><div><h2>📚 الكورسات</h2><p>الدروس والكورسات التعليمية.</p></div></div>
-          <div class="empty-state"><div class="icon">🎓</div><h3>قسم الكورسات قيد التجهيز</h3><p>لسه ما ربطناش عرض الكورسات المنشورة بقاعدة البيانات.</p></div>
-        </div>
-
-        <div id="notesView" class="section-view hidden">
-          <div class="section-head"><div><h2>📝 الملازم والملفات</h2><p>مكان المواد والمراجعات الدراسية.</p></div></div>
-          <div class="empty-state"><div class="icon">📄</div><h3>قسم الملفات قيد التجهيز</h3><p>هنربط الملفات بتخزين آمن قبل إتاحتها للطلاب.</p></div>
-        </div>
-
-        <div id="gradesView" class="section-view hidden">
-          <div class="section-head"><div><h2>📊 الدرجات</h2><p>متابعة النتائج والتقييمات.</p></div></div>
-          <div class="empty-state"><div class="icon">📈</div><h3>لا توجد درجات معروضة حاليًا</h3><p>عرض الدرجات الفعلي يحتاج إلى ربط القسم بقاعدة البيانات وتأمين الصلاحيات.</p></div>
-        </div>
-
-        <div id="questionsView" class="section-view hidden">
-          <div class="section-head"><div><h2>💬 الأسئلة والاستفسارات</h2><p>قسم التواصل مع فريق التدريس.</p></div></div>
-          <div class="empty-state"><div class="icon">✍️</div><h3>قسم الأسئلة قيد التجهيز</h3><p>هنفعّل إرسال الأسئلة وعرض الردود بعد استكمال صلاحيات الوصول.</p></div>
-        </div>
-
-        <div id="managementView" class="section-view hidden">
-          <div class="section-head"><div><h2>🛡️ إدارة المنصة</h2><p>واجهة المالك لإدارة المنصة التعليمية.</p></div></div>
-          <div class="note">👑 تم التحقق من دور حسابك من Supabase. الواجهة دي مخصصة للمالك، لكن أدوات إدارة الحسابات وتعديل البيانات لسه مش مفعّلة لحين استكمال سياسات الأمان.</div>
-          <div class="features" style="margin-top:0">
-            <div class="card"><div class="icon">👥</div><h3>إدارة الطلاب</h3><p>البحث عن الطلاب ومراجعة بياناتهم بعد تأمين عمليات الإدارة.</p></div>
-            <div class="card"><div class="icon">🧑‍🏫</div><h3>المضيفون</h3><p>إدارة فريق التدريس وصلاحياته بطريقة آمنة.</p></div>
-            <div class="card"><div class="icon">📚</div><h3>إدارة المحتوى</h3><p>إنشاء الكورسات وتنظيم الملازم والمواد.</p></div>
-            <div class="card"><div class="icon">📊</div><h3>الدرجات والتقارير</h3><p>إدخال الدرجات ومراجعتها بصلاحيات إدارية.</p></div>
-          </div>
-        </div>
-
-        <div id="profileError" class="message error"></div>
-      </div>
-    </div>
-  </section>
+<section id="dashboard" class="hidden">
+<div class="workspace">
+<aside class="sidebar">
+<div class="side-title">القائمة الرئيسية</div>
+<nav class="nav-list" aria-label="التنقل داخل المنصة">
+<button class="nav-btn active" data-page="home" type="button"><span class="ni">⌂</span> الرئيسية</button>
+<button class="nav-btn" data-page="courses" type="button"><span class="ni">📚</span> الكورسات</button>
+<button class="nav-btn" data-page="notes" type="button"><span class="ni">📝</span> الملازم</button>
+<button class="nav-btn" data-page="grades" type="button"><span class="ni">📊</span> الدرجات</button>
+<button class="nav-btn" data-page="questions" type="button"><span class="ni">💬</span> الأسئلة</button>
+<button class="nav-btn hidden" id="ownerNav" data-page="management" type="button"><span class="ni">🛡️</span> إدارة المنصة</button>
+</nav>
+<div class="sidebar-foot"><div class="profile-strip"><div class="avatar" id="avatarInitial">أ</div><div style="min-width:0"><strong id="sideName">حسابي</strong><small id="sideRole">حساب تعليمي</small></div></div><button class="btn secondary full" id="logoutButton" type="button">تسجيل الخروج</button></div>
+</aside>
+<div class="content">
+<div class="welcome"><span class="tag" id="roleTag">لوحة الحساب</span><h2 id="welcomeTitle">أهلًا بيك</h2><p id="welcomeText">مرحبًا بك في منصتك التعليمية.</p></div>
+<div id="homeView" class="section-view">
+<div class="stats">
+<div class="card stat"><div class="stat-icon">📚</div><div><strong id="courseCount">—</strong><span>الكورسات المتاحة</span></div></div>
+<div class="card stat"><div class="stat-icon">📝</div><div><strong id="noteCount">—</strong><span>الملازم والملفات</span></div></div>
+<div class="card stat"><div class="stat-icon">📊</div><div><strong id="gradeCount">—</strong><span>الدرجات المسجلة</span></div></div>
+</div>
+<div id="homeNotice" class="note">أهلًا بيك في المنصة. الأقسام التعليمية ستظهر هنا بعد ربط المحتوى بقاعدة البيانات.</div>
+<div class="section-head"><div><h2>أقسام المنصة</h2><p>كل احتياجاتك التعليمية في مكان واحد.</p></div></div>
+<div class="features" style="margin-top:0">
+<div class="card"><div class="icon">📚</div><h3>الكورسات</h3><p>الوصول إلى الدروس التعليمية عند نشر المحتوى.</p></div>
+<div class="card"><div class="icon">📝</div><h3>الملازم</h3><p>ملفات المراجعة والمواد الدراسية.</p></div>
+<div class="card"><div class="icon">📈</div><h3>متابعة المستوى</h3><p>الدرجات والتقدم الدراسي بعد التفعيل.</p></div>
+<div class="card"><div class="icon">💬</div><h3>اسأل فريق التدريس</h3><p>نظام الأسئلة والردود قيد التجهيز.</p></div>
+</div>
+</div>
+<div id="coursesView" class="section-view hidden"><div class="section-head"><div><h2>📚 الكورسات</h2><p>الدروس والكورسات التعليمية.</p></div></div><div class="empty-state"><div class="icon">🎓</div><h3>قسم الكورسات قيد التجهيز</h3><p>لسه ما ربطناش عرض الكورسات المنشورة بقاعدة البيانات.</p></div></div>
+<div id="notesView" class="section-view hidden"><div class="section-head"><div><h2>📝 الملازم والملفات</h2><p>مكان المواد والمراجعات الدراسية.</p></div></div><div class="empty-state"><div class="icon">📄</div><h3>قسم الملفات قيد التجهيز</h3><p>هنربط الملفات بتخزين آمن قبل إتاحتها للطلاب.</p></div></div>
+<div id="gradesView" class="section-view hidden"><div class="section-head"><div><h2>📊 الدرجات</h2><p>متابعة النتائج والتقييمات.</p></div></div><div class="empty-state"><div class="icon">📈</div><h3>لا توجد درجات معروضة حاليًا</h3><p>عرض الدرجات الفعلي يحتاج إلى ربط القسم بقاعدة البيانات وتأمين الصلاحيات.</p></div></div>
+<div id="questionsView" class="section-view hidden"><div class="section-head"><div><h2>💬 الأسئلة والاستفسارات</h2><p>قسم التواصل مع فريق التدريس.</p></div></div><div class="empty-state"><div class="icon">✍️</div><h3>قسم الأسئلة قيد التجهيز</h3><p>هنفعّل إرسال الأسئلة وعرض الردود بعد استكمال صلاحيات الوصول.</p></div></div>
+<div id="managementView" class="section-view hidden">
+<div class="section-head"><div><h2>🛡️ إدارة المنصة</h2><p>واجهة المالك لإدارة المنصة التعليمية.</p></div></div>
+<div class="note">👑 تم التحقق من دور حسابك من Supabase. الواجهة دي مخصصة للمالك، لكن أدوات إدارة الحسابات وتعديل البيانات لسه مش مفعّلة لحين استكمال سياسات الأمان.</div>
+<div class="features" style="margin-top:0">
+<div class="card"><div class="icon">👥</div><h3>إدارة الطلاب</h3><p>البحث عن الطلاب ومراجعة بياناتهم بعد تأمين عمليات الإدارة.</p></div>
+<div class="card"><div class="icon">🧑‍🏫</div><h3>المضيفون</h3><p>إدارة فريق التدريس وصلاحياته بطريقة آمنة.</p></div>
+<div class="card"><div class="icon">📚</div><h3>إدارة المحتوى</h3><p>إنشاء الكورسات وتنظيم الملازم والمواد.</p></div>
+<div class="card"><div class="icon">📊</div><h3>الدرجات والتقارير</h3><p>إدخال الدرجات ومراجعتها بصلاحيات إدارية.</p></div>
+</div>
+</div>
+<div id="profileError" class="message error"></div>
+</div>
+</div>
+</section>
 </main>
-
 <footer>منصة مستر أيمن الشوربجي التعليمية<br>العلم خطوة.. والنجاح رحلة مستمرة</footer>
 
 <script>
 const SUPABASE_URL = "https://aocfytvfmrozzafwnasq.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_wd1cbzai9WTIvqhDw8zrHQ_XtAFarZt";
-const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
-const $ = id => document.getElementById(id);
+let client = null;
 let mode = "login";
 let busy = false;
 let currentPage = "home";
+
+const $ = id => document.getElementById(id);
 
 function message(text, type = "error") {
   const el = $("message");
@@ -403,7 +310,7 @@ async function showDashboard(user) {
     $("roleTag").textContent = "تعذّر التحقق";
     $("sideRole").textContent = "تعذّر التحقق";
     $("homeNotice").textContent = "تعذّر تحميل بيانات الحساب.";
-    $("profileError").textContent = "تعذّر تحميل صلاحية الحساب. راجع اتصال Supabase وسياسات RLS قبل متابعة العمل.";
+    $("profileError").textContent = "خطأ في تحميل الصلاحية: " + (error?.message || "خطأ غير معروف");
     $("profileError").classList.remove("hidden");
   }
 }
@@ -415,9 +322,25 @@ $("authForm").addEventListener("submit", async event => {
   event.preventDefault();
   if (busy) return;
   clearMessage();
+
+  if (!window.supabase) {
+    message("مكتبة Supabase لم يتم تحميلها. تحقق من اتصال الإنترنت ثم حدّث الصفحة.");
+    return;
+  }
+  if (!client) {
+    try {
+      client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+    } catch (error) {
+      console.error("Supabase client initialization failed:", error);
+      message("تعذر تجهيز الاتصال بـ Supabase: " + (error?.message || "خطأ غير معروف"));
+      return;
+    }
+  }
+
   const email = $("email").value.trim();
   const password = $("password").value;
   setBusy(true);
+
   try {
     if (mode === "signup") {
       const fullName = $("fullName").value.trim();
@@ -452,11 +375,25 @@ $("authForm").addEventListener("submit", async event => {
     } else {
       const { data, error } = await client.auth.signInWithPassword({ email, password });
       if (error) throw error;
+      if (!data?.user) throw new Error("تمت الاستجابة دون بيانات مستخدم. جرّب تحديث الصفحة.");
       await showDashboard(data.user);
     }
   } catch (error) {
     console.error("Authentication failed:", error);
-    message("تعذّر إكمال العملية. راجع البريد وكلمة المرور وإعدادات Supabase.");
+    const raw = error?.message || "خطأ غير معروف";
+    let friendly = raw;
+
+    if (/invalid login credentials/i.test(raw)) {
+      friendly = "البريد الإلكتروني أو كلمة المرور غير صحيحة. تأكد من البيانات، ولا تنشئ حسابًا جديدًا قبل التأكد من الحساب الحالي.";
+    } else if (/email not confirmed/i.test(raw)) {
+      friendly = "البريد الإلكتروني غير مؤكّد. راجع رسالة التأكيد في بريدك أو إعدادات تأكيد البريد في Supabase.";
+    } else if (/failed to fetch|networkerror|fetch failed/i.test(raw)) {
+      friendly = "تعذّر الاتصال بـ Supabase. تأكد من الإنترنت، وحاول فتح الصفحة بعد قليل.";
+    } else if (/too many requests/i.test(raw)) {
+      friendly = "محاولات كثيرة في وقت قصير. انتظر قليلًا ثم حاول مرة أخرى.";
+    }
+
+    message("خطأ تسجيل الدخول: " + friendly);
   } finally {
     setBusy(false);
   }
@@ -474,9 +411,7 @@ async function logout() {
     message("تم تسجيل الخروج بنجاح.", "success");
   } catch (error) {
     console.error("Sign out failed:", error);
-    if (!$("authScreen").classList.contains("hidden")) {
-      message("تعذّر تسجيل الخروج. حاول مرة أخرى.");
-    }
+    message("تعذّر تسجيل الخروج: " + (error?.message || "خطأ غير معروف"));
   } finally {
     $("logoutButton").disabled = false;
     $("logoutTop").disabled = false;
@@ -487,8 +422,16 @@ $("logoutTop").addEventListener("click", logout);
 
 async function initialize() {
   try {
+    if (!window.supabase) {
+      showAuth();
+      message("مكتبة Supabase لم يتم تحميلها. تحقق من اتصال الإنترنت ثم حدّث الصفحة.");
+      return;
+    }
+
+    client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
     const { data, error } = await client.auth.getSession();
     if (error) throw error;
+
     if (data.session?.user) await showDashboard(data.session.user);
 
     client.auth.onAuthStateChange((event, session) => {
@@ -501,9 +444,10 @@ async function initialize() {
   } catch (error) {
     console.error("Initialization failed:", error);
     showAuth();
-    message("تعذّر الاتصال بخدمات تسجيل الدخول. راجع اتصال الإنترنت وإعدادات Supabase.");
+    message("تعذّر الاتصال بخدمات تسجيل الدخول: " + (error?.message || "خطأ غير معروف"));
   }
 }
+
 initialize();
 </script>
 </body>
