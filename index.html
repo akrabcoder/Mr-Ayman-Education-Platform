@@ -4,57 +4,136 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#071426">
+<meta name="theme-color" content="#081426">
 <title>منصة مستر أيمن الشوربجي</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--bg:#071426;--panel:#10233d;--panel2:#162d4b;--blue:#3985ff;--cyan:#62d8ff;--text:#f4f8ff;--muted:#a8bad1;--border:#29415f;--green:#61e5b0}
+:root{
+  --bg:#081426;--panel:#101f35;--panel2:#152943;
+  --blue:#4388ff;--cyan:#65dcff;--text:#f2f6ff;
+  --muted:#9eafc7;--border:#243a57;--green:#60e3b0;
+  --red:#ff8585;--radius:18px
+}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top left,#14365b,var(--bg) 55%);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
 button,input{font:inherit}
 button{cursor:pointer}
-header{padding:18px 5%;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:15px;background:#071426dd;position:sticky;top:0;z-index:2;backdrop-filter:blur(12px)}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:grid;place-items:center;font-size:23px;font-weight:bold}
-.brand h1{font-size:16px;margin:0 0 5px}
-.brand small{font-size:10px;color:var(--muted)}
-main{width:min(1100px,92%);margin:35px auto 60px}
-h2{font-size:clamp(25px,4vw,38px);margin:0 0 12px}
-p{line-height:1.9}
+button:disabled{opacity:.5;cursor:not-allowed}
+.hidden{display:none!important}
 .muted{color:var(--muted)}
-.tag{display:inline-block;border:1px solid #315078;border-radius:25px;padding:8px 12px;color:var(--cyan);font-size:12px;margin-bottom:15px}
-.layout{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center}
-.panel{background:linear-gradient(145deg,#122945,#0b1b30);border:1px solid var(--border);border-radius:20px;padding:25px;box-shadow:0 20px 55px #0002}
-.field{margin:14px 0}
-label{display:block;font-size:12px;margin-bottom:8px;color:#dce8f8}
-input{width:100%;padding:13px;border-radius:10px;border:1px solid var(--border);background:#071426;color:white;outline:none}
-input:focus{border-color:var(--blue)}
-.btn{border:0;background:linear-gradient(100deg,#3479f6,#277fe0);color:white;border-radius:10px;padding:13px 16px;font-weight:bold}
-.btn:disabled{opacity:.55}
+header{
+  min-height:76px;padding:14px 4%;display:flex;align-items:center;
+  justify-content:space-between;gap:15px;border-bottom:1px solid var(--border);
+  background:#081426ed;position:sticky;top:0;z-index:10;backdrop-filter:blur(16px)
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{
+  width:45px;height:45px;border-radius:15px;display:grid;place-items:center;
+  font-size:24px;font-weight:bold;background:linear-gradient(135deg,#3679ff,#66dcff);
+  box-shadow:0 5px 24px #3985ff35;color:white
+}
+.brand h1{font-size:15px;margin:0 0 5px}
+.brand small{font-size:10px;color:var(--muted);letter-spacing:.5px}
+.top-actions{display:flex;align-items:center;gap:10px}
+.badge{font-size:11px;color:var(--green);border:1px solid #60e3b044;border-radius:30px;padding:9px 12px}
+.btn{
+  border:1px solid transparent;background:linear-gradient(110deg,#367bfa,#267fdf);
+  color:white;border-radius:11px;padding:12px 16px;font-weight:bold;transition:.2s
+}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn.secondary{background:#172943;border-color:var(--border)}
 .btn.full{width:100%;margin-top:8px}
-.btn.secondary{background:#182f4d;border:1px solid var(--border)}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;background:#071426;border-radius:12px;margin:20px 0}
+main{width:min(1380px,96%);margin:30px auto 55px}
+h2{font-size:clamp(24px,3vw,34px);margin:0 0 12px}
+p{line-height:1.9}
+.tag{display:inline-block;border:1px solid #315078;background:#3985ff0c;border-radius:30px;padding:8px 12px;color:var(--cyan);font-size:12px;margin-bottom:14px}
+.panel{background:linear-gradient(145deg,#122641,#0c192b);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:0 20px 50px #0002}
+.layout{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}
+.features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-top:24px}
+.card{background:linear-gradient(145deg,#142740,#101e32);border:1px solid var(--border);padding:19px;border-radius:16px;min-width:0}
+.card .icon{font-size:25px}
+.card h3{font-size:15px;margin:12px 0 7px}
+.card p{font-size:12px;color:var(--muted);margin:0}
+.field{margin:15px 0}
+label{display:block;font-size:12px;margin-bottom:8px;color:#dce8f8}
+input{width:100%;padding:13px;border-radius:11px;border:1px solid var(--border);background:#081426;color:white;outline:none}
+input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #4388ff16}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;background:#081426;border-radius:12px;margin:20px 0}
 .tab{padding:11px;border:0;border-radius:9px;background:transparent;color:var(--muted)}
 .tab.active{background:var(--blue);color:white}
-.features,.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}
-.card{background:#ffffff07;border:1px solid var(--border);padding:17px;border-radius:14px}
-.card .icon{font-size:24px}
-.card h3{font-size:15px;margin:10px 0 6px}
-.card p{font-size:12px;color:var(--muted);margin:0}
 .message{display:none;padding:12px;margin-top:15px;border-radius:10px;font-size:13px;line-height:1.8;overflow-wrap:anywhere}
 .message.show{display:block}
 .message.error{background:#ff777714;color:#ffc3c3;border:1px solid #ff777744}
 .message.success{background:#61e5b011;color:#aaffd8;border:1px solid #61e5b044}
-.hidden{display:none!important}
-.top-actions{display:flex;align-items:center;gap:10px}
-.badge{font-size:11px;color:var(--green);border:1px solid #61e5b044;border-radius:20px;padding:8px 10px}
-.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
-.stats{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:24px}
-.stat strong{display:block;font-size:24px;color:var(--cyan);margin-top:12px}
+.workspace{display:grid;grid-template-columns:235px minmax(0,1fr);gap:22px;align-items:start}
+.sidebar{background:#0d1c30;border:1px solid var(--border);border-radius:18px;padding:17px;position:sticky;top:95px}
+.side-title{font-size:10px;color:#8196b3;margin:5px 10px 13px}
+.nav-btn{
+  width:100%;display:flex;align-items:center;gap:12px;text-align:right;
+  border:1px solid transparent;background:transparent;color:#b9c8dd;
+  padding:12px;border-radius:11px;margin:4px 0;font-size:13px
+}
+.nav-btn:hover,.nav-btn.active{background:#3985ff19;border-color:#3985ff30;color:white}
+.nav-btn .ni{width:24px;text-align:center;font-size:17px}
+.sidebar-foot{margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+.content{min-width:0}
+.welcome{
+  border:1px solid #2a4a70;border-radius:20px;padding:27px;
+  background:radial-gradient(ellipse at top left,#1a4773 0%,transparent 65%),linear-gradient(120deg,#122640,#0d192b);
+  position:relative;overflow:hidden;margin-bottom:22px
+}
+.welcome:after{content:"أ";position:absolute;left:22px;top:-30px;font-size:190px;font-weight:bold;color:#ffffff08;pointer-events:none}
+.welcome h2{position:relative;z-index:1}
+.welcome p{position:relative;z-index:1;color:#b7c9e1;margin-bottom:0;font-size:13px}
+.welcome .tag{position:relative;z-index:1}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-bottom:22px}
+.stat{position:relative;overflow:hidden}
+.stat .stat-icon{font-size:22px}
+.stat strong{display:block;font-size:22px;color:var(--cyan);margin:15px 0 7px}
 .stat span{font-size:12px;color:var(--muted)}
-.note{background:#62d8ff0b;border:1px solid #62d8ff33;border-radius:13px;padding:15px;color:#d7e9ff;font-size:13px;line-height:1.9}
-footer{text-align:center;color:#8093ab;font-size:11px;padding:20px;line-height:2}
-@media(max-width:760px){.layout{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.features{grid-template-columns:1fr 1fr}header{padding:14px 4%}.brand h1{font-size:13px}.badge{display:none}main{margin-top:25px}.panel{padding:20px}}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 17px}
+.section-head h2{font-size:21px;margin:0}
+.section-head p{font-size:12px;margin:7px 0 0;color:var(--muted)}
+.note{background:#62d8ff0b;border:1px solid #62d8ff33;border-radius:13px;padding:15px;color:#d7e9ff;font-size:13px;line-height:1.9;margin-bottom:18px}
+.empty-state{text-align:center;padding:34px 18px;border:1px dashed #304762;border-radius:16px;background:#ffffff03}
+.empty-state .icon{font-size:34px}
+.empty-state h3{font-size:16px;margin:12px 0 6px}
+.empty-state p{font-size:12px;color:var(--muted);margin:0}
+.section-view{animation:appear .22s ease}
+@keyframes appear{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.profile-strip{display:flex;align-items:center;gap:12px;padding:12px;background:#ffffff05;border:1px solid var(--border);border-radius:13px}
+.avatar{width:38px;height:38px;border-radius:12px;background:#3985ff25;display:grid;place-items:center;font-weight:bold;color:var(--cyan)}
+.profile-strip strong{font-size:12px;display:block;overflow-wrap:anywhere}
+.profile-strip small{font-size:10px;color:var(--muted)}
+footer{text-align:center;color:#7186a3;font-size:11px;padding:22px;line-height:2;border-top:1px solid #1a2d45}
+@media(max-width:850px){
+ .workspace{grid-template-columns:1fr}
+ .sidebar{position:static;padding:10px}
+ .nav-list{display:flex;overflow-x:auto;gap:5px}
+ .nav-btn{width:auto;white-space:nowrap;flex-shrink:0;margin:0}
+ .side-title,.sidebar-foot{display:none}
+ .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:600px){
+ header{padding:12px 4%;min-height:68px}
+ .brand h1{font-size:12px}.brand small{font-size:8px}
+ .logo{width:39px;height:39px}
+ .badge{display:none}
+ main{width:92%;margin-top:20px}
+ .layout{grid-template-columns:1fr;gap:22px}
+ .panel{padding:18px}
+ .features{gap:9px}
+ .card{padding:14px}
+ .card h3{font-size:13px}
+ .stats{grid-template-columns:1fr}
+ .stat{display:grid;grid-template-columns:38px 1fr;align-items:center;column-gap:10px}
+ .stat .stat-icon{grid-row:span 2}
+ .stat strong{margin:0 0 5px;font-size:20px}
+ .stat span{align-self:end}
+ .welcome{padding:22px}
+ .welcome:after{font-size:130px}
+ .nav-btn{font-size:12px;padding:10px}
+}
 </style>
 </head>
 <body>
@@ -75,19 +154,20 @@ footer{text-align:center;color:#8093ab;font-size:11px;padding:20px;line-height:2
 <main>
   <section id="authScreen" class="layout">
     <div>
-      <span class="tag">🎓 بوابتك نحو التفوق</span>
+      <span class="tag">✦ بوابتك نحو التفوق</span>
       <h2>مستقبلك يبدأ بخطوة <span style="color:var(--cyan)">علم</span></h2>
-      <p class="muted">تابع دروسك، ونظم مذاكرتك، وارجع لمحتواك التعليمي من مكان واحد.</p>
+      <p class="muted">تجربة تعليمية منظمة تساعدك تتابع دروسك ومحتواك من مكان واحد، وتخلي رحلتك الدراسية أوضح وأسهل.</p>
       <div class="features">
-        <div class="card"><div class="icon">📚</div><h3>الكورسات</h3><p>مكان منظم لدروسك التعليمية.</p></div>
-        <div class="card"><div class="icon">📝</div><h3>الملازم</h3><p>مراجعاتك وملفاتك في مكان واحد.</p></div>
-        <div class="card"><div class="icon">📊</div><h3>الدرجات</h3><p>متابعة الأداء والتقدم الدراسي.</p></div>
-        <div class="card"><div class="icon">💬</div><h3>الأسئلة</h3><p>اسأل وتابع إجابات فريق التدريس.</p></div>
+        <div class="card"><div class="icon">📚</div><h3>الكورسات</h3><p>مساحة منظمة للدروس التعليمية.</p></div>
+        <div class="card"><div class="icon">📝</div><h3>الملازم</h3><p>ملفات ومراجعاتك في مكان واحد.</p></div>
+        <div class="card"><div class="icon">📊</div><h3>الدرجات</h3><p>متابعة مستواك الدراسي.</p></div>
+        <div class="card"><div class="icon">💬</div><h3>الأسئلة</h3><p>قسم مخصص للاستفسارات التعليمية.</p></div>
       </div>
     </div>
 
     <div class="panel">
       <div id="authForms">
+        <span class="tag">حسابك التعليمي</span>
         <h2 id="formTitle" style="font-size:25px">أهلًا بيك 👋</h2>
         <p class="muted" id="formSubtitle" style="font-size:13px">سجّل دخولك لحسابك التعليمي.</p>
         <div class="tabs">
@@ -110,42 +190,86 @@ footer{text-align:center;color:#8093ab;font-size:11px;padding:20px;line-height:2
   </section>
 
   <section id="dashboard" class="hidden">
-    <div class="section-head">
-      <div>
-        <span class="tag" id="roleTag">لوحة الحساب</span>
-        <h2 id="welcomeTitle">أهلًا بيك</h2>
-        <p class="muted" id="welcomeText">مرحبًا بك في منصتك التعليمية.</p>
-      </div>
-      <button class="btn secondary" id="logoutButton" type="button">تسجيل الخروج</button>
-    </div>
+    <div class="workspace">
+      <aside class="sidebar">
+        <div class="side-title">القائمة الرئيسية</div>
+        <nav class="nav-list" aria-label="التنقل داخل المنصة">
+          <button class="nav-btn active" data-page="home" type="button"><span class="ni">⌂</span> الرئيسية</button>
+          <button class="nav-btn" data-page="courses" type="button"><span class="ni">📚</span> الكورسات</button>
+          <button class="nav-btn" data-page="notes" type="button"><span class="ni">📝</span> الملازم</button>
+          <button class="nav-btn" data-page="grades" type="button"><span class="ni">📊</span> الدرجات</button>
+          <button class="nav-btn" data-page="questions" type="button"><span class="ni">💬</span> الأسئلة</button>
+          <button class="nav-btn hidden" id="ownerNav" data-page="management" type="button"><span class="ni">🛡️</span> إدارة المنصة</button>
+        </nav>
+        <div class="sidebar-foot">
+          <div class="profile-strip">
+            <div class="avatar" id="avatarInitial">أ</div>
+            <div style="min-width:0">
+              <strong id="sideName">حسابي</strong>
+              <small id="sideRole">حساب تعليمي</small>
+            </div>
+          </div>
+          <button class="btn secondary full" id="logoutButton" type="button">تسجيل الخروج</button>
+        </div>
+      </aside>
 
-    <div id="ownerPanel" class="hidden">
-      <div class="note">
-        👑 أنت مسجل كمالك للمنصة. دي واجهة المالك الأولية. أقسام إدارة الطلاب والمضيفين والدرجات مش مفعّلة لحد ما نراجع سياسات قاعدة البيانات، علشان نحمي بيانات الطلاب.
-      </div>
-      <div class="stats">
-        <div class="card stat"><span>إدارة الطلاب</span><strong>قريبًا</strong><p>بعد تأمين سياسات الوصول</p></div>
-        <div class="card stat"><span>الكورسات والملازم</span><strong>قريبًا</strong><p>بعد تجهيز إدارة المحتوى</p></div>
-        <div class="card stat"><span>المضيفون والصلاحيات</span><strong>قريبًا</strong><p>إدارة إدارية آمنة</p></div>
-      </div>
-      <div class="features">
-        <div class="card"><div class="icon">👥</div><h3>الطلاب</h3><p>سنضيف البحث عن الطلاب ومتابعة حساباتهم بعد إعداد سياسات الإدارة.</p></div>
-        <div class="card"><div class="icon">📚</div><h3>المحتوى التعليمي</h3><p>سنضيف إنشاء الكورسات وإرفاق الملازم بعد تجهيز قاعدة البيانات.</p></div>
-        <div class="card"><div class="icon">🛡️</div><h3>الصلاحيات</h3><p>المالك والمضيف والطالب لكل منهم صلاحيات مختلفة.</p></div>
-        <div class="card"><div class="icon">📈</div><h3>التقدم والدرجات</h3><p>سنربط الدرجات وسجل المشاهدة بسياسات وصول مناسبة.</p></div>
+      <div class="content">
+        <div class="welcome">
+          <span class="tag" id="roleTag">لوحة الحساب</span>
+          <h2 id="welcomeTitle">أهلًا بيك</h2>
+          <p id="welcomeText">مرحبًا بك في منصتك التعليمية.</p>
+        </div>
+
+        <div id="homeView" class="section-view">
+          <div class="stats">
+            <div class="card stat"><div class="stat-icon">📚</div><div><strong id="courseCount">—</strong><span>الكورسات المتاحة</span></div></div>
+            <div class="card stat"><div class="stat-icon">📝</div><div><strong id="noteCount">—</strong><span>الملازم والملفات</span></div></div>
+            <div class="card stat"><div class="stat-icon">📊</div><div><strong id="gradeCount">—</strong><span>الدرجات المسجلة</span></div></div>
+          </div>
+          <div id="homeNotice" class="note">أهلًا بيك في المنصة. الأقسام التعليمية ستظهر هنا بعد ربط المحتوى بقاعدة البيانات.</div>
+          <div class="section-head"><div><h2>أقسام المنصة</h2><p>كل احتياجاتك التعليمية في مكان واحد.</p></div></div>
+          <div class="features" style="margin-top:0">
+            <div class="card"><div class="icon">📚</div><h3>الكورسات</h3><p>الوصول إلى الدروس التعليمية عند نشر المحتوى.</p></div>
+            <div class="card"><div class="icon">📝</div><h3>الملازم</h3><p>ملفات المراجعة والمواد الدراسية.</p></div>
+            <div class="card"><div class="icon">📈</div><h3>متابعة المستوى</h3><p>الدرجات والتقدم الدراسي بعد التفعيل.</p></div>
+            <div class="card"><div class="icon">💬</div><h3>اسأل فريق التدريس</h3><p>نظام الأسئلة والردود قيد التجهيز.</p></div>
+          </div>
+        </div>
+
+        <div id="coursesView" class="section-view hidden">
+          <div class="section-head"><div><h2>📚 الكورسات</h2><p>الدروس والكورسات التعليمية.</p></div></div>
+          <div class="empty-state"><div class="icon">🎓</div><h3>قسم الكورسات قيد التجهيز</h3><p>لسه ما ربطناش عرض الكورسات المنشورة بقاعدة البيانات.</p></div>
+        </div>
+
+        <div id="notesView" class="section-view hidden">
+          <div class="section-head"><div><h2>📝 الملازم والملفات</h2><p>مكان المواد والمراجعات الدراسية.</p></div></div>
+          <div class="empty-state"><div class="icon">📄</div><h3>قسم الملفات قيد التجهيز</h3><p>هنربط الملفات بتخزين آمن قبل إتاحتها للطلاب.</p></div>
+        </div>
+
+        <div id="gradesView" class="section-view hidden">
+          <div class="section-head"><div><h2>📊 الدرجات</h2><p>متابعة النتائج والتقييمات.</p></div></div>
+          <div class="empty-state"><div class="icon">📈</div><h3>لا توجد درجات معروضة حاليًا</h3><p>عرض الدرجات الفعلي يحتاج إلى ربط القسم بقاعدة البيانات وتأمين الصلاحيات.</p></div>
+        </div>
+
+        <div id="questionsView" class="section-view hidden">
+          <div class="section-head"><div><h2>💬 الأسئلة والاستفسارات</h2><p>قسم التواصل مع فريق التدريس.</p></div></div>
+          <div class="empty-state"><div class="icon">✍️</div><h3>قسم الأسئلة قيد التجهيز</h3><p>هنفعّل إرسال الأسئلة وعرض الردود بعد استكمال صلاحيات الوصول.</p></div>
+        </div>
+
+        <div id="managementView" class="section-view hidden">
+          <div class="section-head"><div><h2>🛡️ إدارة المنصة</h2><p>واجهة المالك لإدارة المنصة التعليمية.</p></div></div>
+          <div class="note">👑 تم التحقق من دور حسابك من Supabase. الواجهة دي مخصصة للمالك، لكن أدوات إدارة الحسابات وتعديل البيانات لسه مش مفعّلة لحين استكمال سياسات الأمان.</div>
+          <div class="features" style="margin-top:0">
+            <div class="card"><div class="icon">👥</div><h3>إدارة الطلاب</h3><p>البحث عن الطلاب ومراجعة بياناتهم بعد تأمين عمليات الإدارة.</p></div>
+            <div class="card"><div class="icon">🧑‍🏫</div><h3>المضيفون</h3><p>إدارة فريق التدريس وصلاحياته بطريقة آمنة.</p></div>
+            <div class="card"><div class="icon">📚</div><h3>إدارة المحتوى</h3><p>إنشاء الكورسات وتنظيم الملازم والمواد.</p></div>
+            <div class="card"><div class="icon">📊</div><h3>الدرجات والتقارير</h3><p>إدخال الدرجات ومراجعتها بصلاحيات إدارية.</p></div>
+          </div>
+        </div>
+
+        <div id="profileError" class="message error"></div>
       </div>
     </div>
-
-    <div id="studentPanel" class="hidden">
-      <div class="features">
-        <div class="card"><div class="icon">📚</div><h3>كورساتي</h3><p>الكورسات المنشورة ستظهر هنا عند تجهيز قسم المحتوى.</p></div>
-        <div class="card"><div class="icon">📝</div><h3>الملازم</h3><p>ملفات المراجعة ستظهر هنا بعد تفعيل التخزين.</p></div>
-        <div class="card"><div class="icon">📊</div><h3>درجاتي</h3><p>الدرجات ستظهر هنا بعد ربطها بقاعدة البيانات.</p></div>
-        <div class="card"><div class="icon">💬</div><h3>الأسئلة</h3><p>قسم الأسئلة والردود سيتم تفعيله لاحقًا.</p></div>
-      </div>
-    </div>
-
-    <div id="profileError" class="message error"></div>
   </section>
 </main>
 
@@ -159,6 +283,7 @@ const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_K
 const $ = id => document.getElementById(id);
 let mode = "login";
 let busy = false;
+let currentPage = "home";
 
 function message(text, type = "error") {
   const el = $("message");
@@ -172,7 +297,8 @@ function clearMessage() {
 function setBusy(value) {
   busy = value;
   $("submitButton").disabled = value;
-  $("submitButton").textContent = value ? "جارٍ التنفيذ..." : mode === "login" ? "تسجيل الدخول" : "إنشاء الحساب";
+  $("submitButton").textContent = value ? "جارٍ التنفيذ..." :
+    mode === "login" ? "تسجيل الدخول" : "إنشاء الحساب";
 }
 function setMode(next) {
   mode = next;
@@ -182,7 +308,8 @@ function setMode(next) {
   $("loginTab").classList.toggle("active", !signup);
   $("signupTab").classList.toggle("active", signup);
   $("formTitle").textContent = signup ? "أنشئ حسابك 🎓" : "أهلًا بيك 👋";
-  $("formSubtitle").textContent = signup ? "اكتب بياناتك لإنشاء حسابك التعليمي." : "سجّل دخولك لحسابك التعليمي.";
+  $("formSubtitle").textContent = signup ?
+    "اكتب بياناتك لإنشاء حسابك التعليمي." : "سجّل دخولك لحسابك التعليمي.";
   $("fullName").required = signup;
   $("studentPhone").required = signup;
   $("guardianPhone").required = signup;
@@ -193,20 +320,45 @@ function showAuth() {
   $("authScreen").classList.remove("hidden");
   $("dashboard").classList.add("hidden");
   $("logoutTop").classList.add("hidden");
+  $("ownerNav").classList.add("hidden");
 }
 function showDashboardBase() {
   $("authScreen").classList.add("hidden");
   $("dashboard").classList.remove("hidden");
   $("logoutTop").classList.remove("hidden");
-  $("ownerPanel").classList.add("hidden");
-  $("studentPanel").classList.add("hidden");
   $("profileError").classList.add("hidden");
 }
+function navigate(page) {
+  const pages = {
+    home:"homeView", courses:"coursesView", notes:"notesView",
+    grades:"gradesView", questions:"questionsView",
+    management:"managementView"
+  };
+  if (!pages[page]) return;
+  if (page === "management" && $("ownerNav").classList.contains("hidden")) return;
+  currentPage = page;
+  Object.values(pages).forEach(id => $(id).classList.add("hidden"));
+  $(pages[page]).classList.remove("hidden");
+  document.querySelectorAll(".nav-btn[data-page]").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.page === page);
+  });
+}
+document.querySelectorAll(".nav-btn[data-page]").forEach(btn => {
+  btn.addEventListener("click", () => navigate(btn.dataset.page));
+});
+
 async function showDashboard(user) {
   showDashboardBase();
+  navigate("home");
   $("welcomeTitle").textContent = "أهلًا بيك";
   $("welcomeText").textContent = user.email || "حسابك التعليمي";
   $("roleTag").textContent = "جارٍ التحقق من الصلاحية...";
+  $("sideName").textContent = "حسابي";
+  $("sideRole").textContent = "جارٍ التحقق...";
+  $("avatarInitial").textContent = "أ";
+  $("ownerNav").classList.add("hidden");
+  $("homeNotice").textContent = "جارٍ تحميل بيانات حسابك...";
+
   try {
     const { data: profile, error } = await client
       .from("profiles")
@@ -215,30 +367,42 @@ async function showDashboard(user) {
       .maybeSingle();
 
     if (error) throw error;
+
     if (!profile) {
       $("roleTag").textContent = "الحساب";
+      $("sideRole").textContent = "غير مكتمل";
       $("welcomeText").textContent = "ملف الحساب غير موجود. تواصل مع إدارة المنصة.";
+      $("homeNotice").textContent = "تعذّر العثور على ملف الحساب.";
       $("profileError").textContent = "لم نعثر على سجل لهذا الحساب في جدول profiles. لن نعرض لوحة إدارة.";
       $("profileError").classList.remove("hidden");
       return;
     }
 
-    $("welcomeTitle").textContent = profile.full_name ? "أهلًا يا " + profile.full_name : "أهلًا بيك";
+    const name = profile.full_name || "صاحب الحساب";
+    $("welcomeTitle").textContent = "أهلًا يا " + name;
     $("welcomeText").textContent = user.email || "";
+    $("sideName").textContent = name;
+    $("avatarInitial").textContent = [...name][0] || "أ";
+
     if (profile.role === "owner") {
       $("roleTag").textContent = "👑 مالك المنصة";
-      $("ownerPanel").classList.remove("hidden");
+      $("sideRole").textContent = "مالك المنصة";
+      $("ownerNav").classList.remove("hidden");
+      $("homeNotice").textContent = "أهلًا بمالك المنصة. أدوات الإدارة هتتفعّل بعد استكمال مراجعة الصلاحيات والأمان.";
     } else if (profile.role === "host") {
       $("roleTag").textContent = "🛡️ مضيف المنصة";
-      $("studentPanel").classList.remove("hidden");
-      $("welcomeText").textContent = "حساب المضيف موجود، وسيتم تفعيل أدواته بعد تجهيز صلاحياته.";
+      $("sideRole").textContent = "مضيف المنصة";
+      $("homeNotice").textContent = "حساب المضيف موجود، وسيتم تفعيل أدواته بعد تجهيز صلاحياته.";
     } else {
       $("roleTag").textContent = "🎓 طالب";
-      $("studentPanel").classList.remove("hidden");
+      $("sideRole").textContent = "طالب";
+      $("homeNotice").textContent = "أهلًا بيك في منصتك التعليمية. الأقسام التعليمية هتظهر بعد تجهيز المحتوى وربطه بقاعدة البيانات.";
     }
   } catch (error) {
     console.error("Profile lookup failed:", error);
     $("roleTag").textContent = "تعذّر التحقق";
+    $("sideRole").textContent = "تعذّر التحقق";
+    $("homeNotice").textContent = "تعذّر تحميل بيانات الحساب.";
     $("profileError").textContent = "تعذّر تحميل صلاحية الحساب. راجع اتصال Supabase وسياسات RLS قبل متابعة العمل.";
     $("profileError").classList.remove("hidden");
   }
@@ -259,6 +423,7 @@ $("authForm").addEventListener("submit", async event => {
       const fullName = $("fullName").value.trim();
       const studentPhone = $("studentPhone").value.trim();
       const guardianPhone = $("guardianPhone").value.trim();
+
       if (fullName.split(/\s+/).filter(Boolean).length < 4) {
         message("من فضلك اكتب الاسم الرباعي كاملًا.");
         return;
@@ -267,6 +432,7 @@ $("authForm").addEventListener("submit", async event => {
         message("اكتب رقم موبايل الطالب ورقم ولي الأمر.");
         return;
       }
+
       const { data, error } = await client.auth.signUp({
         email, password,
         options: { data: {
@@ -276,6 +442,7 @@ $("authForm").addEventListener("submit", async event => {
         }}
       });
       if (error) throw error;
+
       if (data.session && data.user) {
         await showDashboard(data.user);
       } else {
@@ -323,10 +490,11 @@ async function initialize() {
     const { data, error } = await client.auth.getSession();
     if (error) throw error;
     if (data.session?.user) await showDashboard(data.session.user);
+
     client.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_OUT") {
         showAuth();
-      } else if (session?.user) {
+      } else if (event === "SIGNED_IN" && session?.user) {
         showDashboard(session.user);
       }
     });
